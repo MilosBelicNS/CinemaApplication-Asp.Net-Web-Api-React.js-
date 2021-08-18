@@ -59,6 +59,9 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Entity" />
@@ -224,8 +227,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IMovieService.cs" />
+    <Compile Include="Migrations\202108181142052_Initial.cs" />
+    <Compile Include="Migrations\202108181142052_Initial.Designer.cs">
+      <DependentUpon>202108181142052_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DTOs\MovieDTO.cs" />
     <Compile Include="Models\DTOs\MovieRequest.cs" />
     <Compile Include="Models\DTOs\MovieResponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -235,7 +244,6 @@
     <Compile Include="Models\Seat.cs" />
     <Compile Include="Models\Theater.cs" />
     <Compile Include="Models\Ticket.cs" />
-    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Validations\CurrentDateTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -332,6 +340,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202108181142052_Initial.resx">
+      <DependentUpon>202108181142052_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Data.Entity;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -24,7 +25,15 @@ namespace CinemaService.Models
             : base("CinemaDb", throwIfV1Schema: false)
         {
         }
-        
+
+        public DbSet<Movie> Movies  { get; set; }
+        public DbSet<ProjectionType> ProjectionTypes { get; set; }
+        public DbSet<Projection> Projections { get; set; }
+        public DbSet<Seat> Seats { get; set; }
+        public DbSet<Theater> Theaters { get; set; }
+
+        public DbSet<Ticket> Tickets { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

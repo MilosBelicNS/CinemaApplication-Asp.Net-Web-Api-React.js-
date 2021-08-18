@@ -10,14 +10,17 @@ namespace CinemaService.Models
     public class Seat
     {
         [Key]
-        public int SerialNumber { get; set; }
+        public int Id { get; set; }
 
-        [Required]
+        
         public bool Free { get; set; }
 
         public Theater Theater { get; set; }
         [ForeignKey("Theater")]
+       
         public int TheaterId { get; set; }
+
+        /*public List<Ticket> PurchasedTickets { get; set; }*/
 
 
     }

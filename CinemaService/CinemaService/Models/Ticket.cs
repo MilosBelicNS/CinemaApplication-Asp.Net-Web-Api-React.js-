@@ -12,23 +12,20 @@ namespace CinemaService.Models
         [Key]
         public int Id { get; set; }
 
+        public bool Purchased { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
         public DateTime DatePurchased { get; set; }
-
 
         public Projection Projection { get; set; }
         [ForeignKey("Projection")]
         public int ProjectionId { get; set; }
 
         public Seat Seat { get; set; }
-        [ForeignKey("Seat")]
-        public int SeatId { get; set; }
 
         public User User { get; set; }
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
     }
 }

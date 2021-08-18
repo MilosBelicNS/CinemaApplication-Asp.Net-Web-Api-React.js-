@@ -25,6 +25,8 @@ namespace CinemaService.Models
         [Range(1, 300)]
         public int Duration { get; set; }
 
+        public string PicturePath { get; set; }
+
         [Required]
         [StringLength(50)]
         public string Studio { get; set; }
@@ -43,10 +45,10 @@ namespace CinemaService.Models
 
 
 
-        [Required]
-        public IEnumerable<string> Actors { get; set; }
-        [Required]
-        public IEnumerable<string> Genres { get; set; }
+        
+        public List<string> Actors { get; set; }
+       
+        public List<string> Genres { get; set; }
 
 
     }

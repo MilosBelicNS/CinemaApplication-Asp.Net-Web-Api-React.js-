@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -17,7 +18,7 @@ namespace CinemaService.Models
         [Required]
         public bool Free { get; set; }
 
-        public ProjectionType TypeName { get; set; }
-
+        public virtual List<ProjectionType> ProjectionTypes { get; set; }
+        public virtual List<Seat> Seats { get; set; }
     }
 }

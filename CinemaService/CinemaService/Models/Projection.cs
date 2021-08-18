@@ -21,16 +21,12 @@ namespace CinemaService.Models
         [CurrentDateTime(ErrorMessage = "Showing date must be in future!")]
         public DateTime DateTimeShowing { get; set; }
 
-        [Required]
-        [Range(1,int.MaxValue)]
-        public int TicketPrice { get; set; }
-
 
         public Movie Movie { get; set; }
         [ForeignKey("Movie")]
         public int MovieId { get; set; }
 
-        public ProjectionType Type { get; set; }
+        public ProjectionType ProjectionType { get; set; }
         [ForeignKey("ProjectionType")]
         public int ProjectionTypeId { get; set; }
 
@@ -38,8 +34,8 @@ namespace CinemaService.Models
         [ForeignKey("Theater")]
         public int TheaterId { get; set; }
 
-        public Admin Admin { get; set; }
-        [ForeignKey("Admin")]
-        public int AdminId { get; set; }
+        public User User { get; set; }
+        [ForeignKey("User")]
+        public  string UserId { get; set; }
     }
 }
