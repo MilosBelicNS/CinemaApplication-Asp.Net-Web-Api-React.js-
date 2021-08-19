@@ -2,7 +2,6 @@ namespace CinemaService.Migrations
 {
     using System;
     using System.Data.Entity;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
     using CinemaService.Models;
@@ -230,6 +229,7 @@ namespace CinemaService.Migrations
                 {
                     Id = 1,
                     DateTimeShowing = new DateTime(2021, 10, 01, 16, 00, 00),
+                    TicketPrice = 4,
                     MovieId = 1,
                     ProjectionTypeId = 1,
                     TheaterId = 1,
@@ -239,6 +239,7 @@ namespace CinemaService.Migrations
                 {
                     Id = 4,
                     DateTimeShowing = new DateTime(2021, 10, 01, 18, 45, 00),
+                    TicketPrice = 5,
                     MovieId = 2,
                     ProjectionTypeId = 2,
                     TheaterId = 1,
@@ -252,13 +253,15 @@ namespace CinemaService.Migrations
                 new Ticket()
                 {
                     Id = 1,
-                    Purchased = false,
+                    DatePurchased = DateTime.Now,
+                    Purchased = true,
                     ProjectionId = 1,
-                    UserId = user2.Id
+                    UserId = context.Users.FirstOrDefault(x => x.UserName == "nikola23").Id,
+                    SeatId = context.Seats.FirstOrDefault().Id
 
                 }
                );
-            /*context.SaveChanges();*/
+            context.SaveChanges();
         }
     }
 }

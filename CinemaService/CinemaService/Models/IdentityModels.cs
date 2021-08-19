@@ -38,5 +38,7 @@ namespace CinemaService.Models
         {
             return new ApplicationDbContext();
         }
+
+        
     }
 }

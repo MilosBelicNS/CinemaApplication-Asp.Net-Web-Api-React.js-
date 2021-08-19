@@ -20,7 +20,7 @@ namespace CinemaService.Models
        
         public int TheaterId { get; set; }
 
-        /*public List<Ticket> PurchasedTickets { get; set; }*/
+        //public List<Ticket> PurchasedTickets { get; set; }
 
 
     }

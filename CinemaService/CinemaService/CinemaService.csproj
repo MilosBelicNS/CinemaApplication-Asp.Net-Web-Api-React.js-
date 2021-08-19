@@ -227,9 +227,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IMovieService.cs" />
-    <Compile Include="Migrations\202108181142052_Initial.cs" />
-    <Compile Include="Migrations\202108181142052_Initial.Designer.cs">
-      <DependentUpon>202108181142052_Initial.cs</DependentUpon>
+    <Compile Include="Interfaces\IProjectionService.cs" />
+    <Compile Include="Migrations\202108191542009_Init.cs" />
+    <Compile Include="Migrations\202108191542009_Init.Designer.cs">
+      <DependentUpon>202108191542009_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108191603106_Second.cs" />
+    <Compile Include="Migrations\202108191603106_Second.Designer.cs">
+      <DependentUpon>202108191603106_Second.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -237,6 +242,7 @@
     <Compile Include="Models\DTOs\MovieDTO.cs" />
     <Compile Include="Models\DTOs\MovieRequest.cs" />
     <Compile Include="Models\DTOs\MovieResponse.cs" />
+    <Compile Include="Models\DTOs\ProjectionDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Projection.cs" />
@@ -342,8 +348,11 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202108181142052_Initial.resx">
-      <DependentUpon>202108181142052_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202108191542009_Init.resx">
+      <DependentUpon>202108191542009_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108191603106_Second.resx">
+      <DependentUpon>202108191603106_Second.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

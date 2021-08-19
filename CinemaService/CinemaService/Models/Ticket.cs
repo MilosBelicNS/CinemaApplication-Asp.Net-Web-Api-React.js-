@@ -22,6 +22,8 @@ namespace CinemaService.Models
         public int ProjectionId { get; set; }
 
         public Seat Seat { get; set; }
+        [ForeignKey("Seat")]
+        public int SeatId { get; set; }
 
         public User User { get; set; }
         [ForeignKey("User")]

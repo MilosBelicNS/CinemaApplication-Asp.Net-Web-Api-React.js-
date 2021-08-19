@@ -9,7 +9,8 @@ namespace CinemaService.Interfaces
 {
    public interface IMovieService
     {
-        IEnumerable<MovieResponse> GetAll(string sortType);
+        IEnumerable<MovieDTO> GetAll(string sortType);//sortiranje po razlicitim parametrima
+        IEnumerable<MovieDTO> GetByFilter(string filter);//pretraga po razlicitim parametrima
         MovieResponse GetById(int id);
         void Create(MovieRequest movieRequest);
         void Update(int id, MovieRequest movieRequest);

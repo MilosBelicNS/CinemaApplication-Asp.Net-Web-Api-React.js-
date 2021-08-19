@@ -21,6 +21,10 @@ namespace CinemaService.Models
         [CurrentDateTime(ErrorMessage = "Showing date must be in future!")]
         public DateTime DateTimeShowing { get; set; }
 
+        [Required]
+        [Range(1, maximum:1000)]
+        public decimal TicketPrice { get; set; }
+
 
         public Movie Movie { get; set; }
         [ForeignKey("Movie")]
