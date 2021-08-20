@@ -43,9 +43,11 @@ namespace CinemaService.Models
         [StringLength(300)]
         public string Description { get; set; }
 
+        public bool Deleted { get; set; }
 
 
-        
+
+
         public List<string> Actors { get; set; }
        
         public List<string> Genres { get; set; }

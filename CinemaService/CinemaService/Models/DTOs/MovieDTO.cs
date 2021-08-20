@@ -1,7 +1,6 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 
 namespace CinemaService.Models.DTOs
 {
@@ -18,6 +17,6 @@ namespace CinemaService.Models.DTOs
 
         public int Year { get; set; }
 
-        public IEnumerable<string> Genres { get; set; }
+        public List<string> Genres { get; set; }
     }
 }

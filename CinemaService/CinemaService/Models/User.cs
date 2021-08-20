@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace CinemaService.Models
 {
@@ -14,9 +11,6 @@ namespace CinemaService.Models
         public string LastName { get; set; }
 
         public DateTime RegistrationDate { get; set; }
-
-
-        public virtual List<Ticket> PurchasedTickets { get; set; }
 
     }
 }

@@ -228,23 +228,23 @@
     </Compile>
     <Compile Include="Interfaces\IMovieService.cs" />
     <Compile Include="Interfaces\IProjectionService.cs" />
-    <Compile Include="Migrations\202108191542009_Init.cs" />
-    <Compile Include="Migrations\202108191542009_Init.Designer.cs">
-      <DependentUpon>202108191542009_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202108191603106_Second.cs" />
-    <Compile Include="Migrations\202108191603106_Second.Designer.cs">
-      <DependentUpon>202108191603106_Second.cs</DependentUpon>
+    <Compile Include="Migrations\202108201909408_Fly.cs" />
+    <Compile Include="Migrations\202108201909408_Fly.Designer.cs">
+      <DependentUpon>202108201909408_Fly.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DTOs\MovieResponse.cs" />
     <Compile Include="Models\DTOs\MovieDTO.cs" />
     <Compile Include="Models\DTOs\MovieRequest.cs" />
-    <Compile Include="Models\DTOs\MovieResponse.cs" />
+    <Compile Include="Models\DTOs\ProjectionById.cs" />
     <Compile Include="Models\DTOs\ProjectionDTO.cs" />
+    <Compile Include="Models\DTOs\ProjectionRequest.cs" />
+    <Compile Include="Models\Filters\ProjectionFilter.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Movie.cs" />
+    <Compile Include="Models\Filters\MovieFilter.cs" />
     <Compile Include="Models\Projection.cs" />
     <Compile Include="Models\ProjectionType.cs" />
     <Compile Include="Models\Seat.cs" />
@@ -348,11 +348,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202108191542009_Init.resx">
-      <DependentUpon>202108191542009_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202108191603106_Second.resx">
-      <DependentUpon>202108191603106_Second.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202108201909408_Fly.resx">
+      <DependentUpon>202108201909408_Fly.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

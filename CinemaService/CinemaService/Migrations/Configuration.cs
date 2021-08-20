@@ -46,20 +46,16 @@ namespace CinemaService.Migrations
                                    UserName = "nikola23", 
                                    Name = "Nikola", 
                                    LastName = "Nikolic", 
-                                   RegistrationDate = DateTime.Now, 
-                                   PurchasedTickets = null };
+                                   RegistrationDate = DateTime.Now
+            };
             manager.Create(user2, "Sifra.1234");
 
             context.SaveChanges();
 
 
-            var admin = context.Users.FirstOrDefault(x => x.Email == "milos@gmail.com");
+            ApplicationUser admin = context.Users.FirstOrDefault(x => x.Email == "milos@gmail.com");
 
             manager.AddToRole(admin.Id, "Administrator");
-
-            
-            
-            
 
 
 
@@ -114,40 +110,26 @@ namespace CinemaService.Migrations
               )  ;
             context.SaveChanges();
 
-            for (int i = 1; i <= 30; i++)
+
+            for (int i = 1; i < 4; i++)
             {
+                Theater theater = context.Theaters.Find(i);
 
-                context.Seats.AddOrUpdate(
-                     new Seat()
-                     {
-                        
-                         Free = true,
-                         TheaterId = 1,
-                         /*PurchasedTickets = null*/
-                     },
-                      new Seat()
-                      {
-
-                          Free = true,
-                          TheaterId = 2,
-                          /*PurchasedTickets = null*/
-                      },
-                       new Seat()
-                       {
-
-                           Free = true,
-                           TheaterId = 3,
-                           /*PurchasedTickets = null*/
-                       }
-
-
-
-
-              );
+                for (int j = 1; j <= 30; j++)
+                {
+                    context.Seats.AddOrUpdate(
+                         new Seat()
+                         {
+                             Free = true,
+                             SerialNumber = j,
+                             Theater = theater,
+                             
+                             
+                         }
+                  );
+                }
             }
             context.SaveChanges();
-
-
 
 
             context.Movies.AddOrUpdate(
@@ -230,20 +212,21 @@ namespace CinemaService.Migrations
                     Id = 1,
                     DateTimeShowing = new DateTime(2021, 10, 01, 16, 00, 00),
                     TicketPrice = 4,
-                    MovieId = 1,
-                    ProjectionTypeId = 1,
-                    TheaterId = 1,
-                    UserId = admin.Id
+                    Movie = context.Movies.Find(1),
+
+                    ProjectionType = context.ProjectionTypes.Find(1),
+                    Theater = context.Theaters.Find(1),
+                    Admin = context.MyUsers.Find(admin.Id)
                 },
                 new Projection()
                 {
-                    Id = 4,
+                    Id = 2,
                     DateTimeShowing = new DateTime(2021, 10, 01, 18, 45, 00),
                     TicketPrice = 5,
-                    MovieId = 2,
-                    ProjectionTypeId = 2,
-                    TheaterId = 1,
-                    UserId = admin.Id
+                    Movie = context.Movies.Find(2),
+                    ProjectionType = context.ProjectionTypes.Find(2),
+                    Theater = context.Theaters.Find(2),
+                    Admin = context.MyUsers.Find(admin.Id)
                 }
 
                );
@@ -255,10 +238,9 @@ namespace CinemaService.Migrations
                     Id = 1,
                     DatePurchased = DateTime.Now,
                     Purchased = true,
-                    ProjectionId = 1,
-                    UserId = context.Users.FirstOrDefault(x => x.UserName == "nikola23").Id,
-                    SeatId = context.Seats.FirstOrDefault().Id
-
+                    Projection = context.Projections.Find(1),
+                    User = context.MyUsers.Find(user2.Id),
+                    Seat = context.Seats.First()
                 }
                );
             context.SaveChanges();

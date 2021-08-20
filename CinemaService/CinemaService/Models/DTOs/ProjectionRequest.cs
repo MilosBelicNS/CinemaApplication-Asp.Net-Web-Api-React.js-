@@ -1,25 +1,19 @@
-﻿
-using CinemaService.Models.Validations;
+﻿using CinemaService.Models.Validations;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CinemaService.Models
+
+namespace CinemaService.Models.DTOs
 {
-    public class Projection
+    public class ProjectionRequest
     {
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
-
         [Required]
         [DataType(DataType.DateTime)]
         [CurrentDateTime(ErrorMessage = "Showing date must be in future!")]
         public DateTime DateTimeShowing { get; set; }
 
         [Required]
-        [Range(1, maximum:1000)]
+        [Range(1, maximum: 1000)]
         public decimal TicketPrice { get; set; }
 
         [Required]
@@ -27,9 +21,13 @@ namespace CinemaService.Models
 
         [Required]
         public ProjectionType ProjectionType { get; set; }
+
         [Required]
         public Theater Theater { get; set; }
+       
 
-        public User Admin { get; set; }
+        [Required]
+        public User User { get; set; }
+        
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+
 
 namespace CinemaService.Models
 {
@@ -12,16 +9,13 @@ namespace CinemaService.Models
         [Key]
         public int Id { get; set; }
 
+        public int SerialNumber { get; set; }
+
         
         public bool Free { get; set; }
 
+        [Required]
         public Theater Theater { get; set; }
-        [ForeignKey("Theater")]
-       
-        public int TheaterId { get; set; }
-
-        //public List<Ticket> PurchasedTickets { get; set; }
-
 
     }
 }
