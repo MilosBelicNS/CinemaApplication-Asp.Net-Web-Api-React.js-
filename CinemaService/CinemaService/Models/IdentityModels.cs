@@ -26,7 +26,7 @@ namespace CinemaService.Models
         {
         }
 
-        public DbSet<User> MyUsers { get; set; }
+        //public DbSet<User> MyUsers { get; set; }
 
         public DbSet<Movie> Movies  { get; set; }
         public DbSet<ProjectionType> ProjectionTypes { get; set; }
@@ -35,6 +35,12 @@ namespace CinemaService.Models
         public DbSet<Theater> Theaters { get; set; }
 
         public DbSet<Ticket> Tickets { get; set; }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
 
         public static ApplicationDbContext Create()
         {

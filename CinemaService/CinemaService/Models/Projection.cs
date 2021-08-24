@@ -31,5 +31,7 @@ namespace CinemaService.Models
         public Theater Theater { get; set; }
 
         public User Admin { get; set; }
+        [ForeignKey("Admin")]
+        public string AdminId { get; set; }
     }
 }
