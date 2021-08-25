@@ -33,7 +33,7 @@ namespace CinemaService.Models
         public DbSet<Projection> Projections { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Theater> Theaters { get; set; }
-
+        public DbSet<User> MyUsers { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
 
 

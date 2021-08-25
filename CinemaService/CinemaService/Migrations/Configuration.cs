@@ -69,8 +69,8 @@ namespace CinemaService.Migrations
             context.SaveChanges();
 
 
-           // ApplicationUser admin = context.Users.FirstOrDefault(x => x.UserName == "milos1");
-            var admin = context.Users.FirstOrDefault(x => x.UserName == "milos1");
+           ApplicationUser admin = context.MyUsers.FirstOrDefault(x => x.UserName == "milos1");
+            //var admin = context.Users.FirstOrDefault(x => x.UserName == "milos1");
 
             manager.AddToRole(admin.Id, "Administrator");
 
@@ -281,36 +281,36 @@ namespace CinemaService.Migrations
                     Description = "After landing the gig of a lifetime, a New York jazz pianist suddenly finds himself trapped in a strange land between Earth and the afterlife.",
                     Actors = new List<string> { "Jamie Foxx", "Tina Fey", "Graham Norton", "Rachel House", "Alice Braga", "Richard Ayoade" },
                     Genres = new List<string> { "Family", "Comedy" }
-                });
-                 //new Movie()
-                 //{
-                 //    Id = 9,
-                 //    Name = "I'm Thinking of Ending Things",
-                 //    Director = "Charlie Kaufman",
-                 //    Duration = 134,
-                 //    Studio = "Netflix",
-                 //    Country = "United States",
-                 //    PicturePath = @"\slika4.jpg",
-                 //    Year = 2020,
-                 //    Description = "Full of misgivings, a young woman travels with her new boyfriend to his parents' secluded farm. Upon arriving, she comes to question everything she thought she knew about him, and herself.",
-                 //    Actors = new List<string> { "Jesse Plemons", "Jessie Buckley", "Toni Collette", "David Thewlis" },
-                 //    Genres = new List<string> { "Horror" }
-                 //},
-                 //new Movie()
-                 //{
-                 //    Id = 10,
-                 //    Name = "Borat Subsequent",
-                 //    Director = "Jason Woliner",
-                 //    Duration = 96,
-                 //    Studio = "Four by Two Films",
-                 //    Country = "United States",
-                 //    PicturePath = @"\slika3.jpg",
-                 //    Year = 2020,
-                 //    Description = "Borat returns from Kazakhstan to America and this time he reveals more about the American culture, the COVID-19 pandemic and the political elections.",
-                 //    Actors = new List<string> { "Sacha Baron Cohen", "Rudy Giuliani", "Maria Bakalova" },
-                 //    Genres = new List<string> { "Comedy", "Mockumentary" }
-                 //}); 
-                 
+                },
+                 new Movie()
+                 {
+                     Id = 9,
+                     Name = "Another Round - Mads Mikkelsen in Druk",
+                     Director ="Thomas Vinterberg",
+                     Duration = 117,
+                     Studio = "Nordisk Film",
+                     Country = "Denmark",
+                     PicturePath = @"\slika4.jpg",
+                     Year = 2020,
+                     Description = "Four high school teachers consume alcohol on a daily basis to see how it affects their social and professional lives.",
+                     Actors = new List<string> { "Mads Mikkelsen","Thomas Bo Larsen","Magnus Millang","Lars Ranthe" },
+                     Genres = new List<string> { "Drama","Comedy" }
+                 },
+                 new Movie()
+                 {
+                     Id = 10,
+                     Name = "Onward",
+                     Director = "Dan Scanlonr",
+                     Duration = 102,
+                     Studio = "Four by Two Films",
+                     Country = "United States",
+                     PicturePath = @"\slika10.jpg",
+                     Year = 2020,
+                     Description = "Borat returns from Kazakhstan to America and this time he reveals more about the American culture, the COVID-19 pandemic and the political elections.",
+                     Actors = new List<string> { "Tom Holland", "Chris Pratt","Julia Louis-Dreyfus","Octavia Spencer" },
+                     Genres = new List<string> { "Family", "Adventure" }
+                 });
+
 
 
             context.SaveChanges();
@@ -319,24 +319,53 @@ namespace CinemaService.Migrations
                 new Projection()
                 {
                     Id = 1,
-                    DateTimeShowing = new DateTime(2021, 10, 01, 16, 00, 00),
+                    DateTimeShowing = new DateTime(2021, 09, 01, 12, 00, 00),
                     TicketPrice = 4,
-                    Movie = context.Movies.Find(1),
-
+                    Movie = context.Movies.Find(8),
                     ProjectionType = context.ProjectionTypes.Find(1),
                     Theater = context.Theaters.Find(1),
-                    AdminId = admin.Id
+                    Admin = context.MyUsers.Find(admin.Id)
                 },
                 new Projection()
                 {
                     Id = 2,
-                    DateTimeShowing = new DateTime(2021, 10, 01, 18, 45, 00),
-                    TicketPrice = 5,
-                    Movie = context.Movies.Find(2),
-                    ProjectionType = context.ProjectionTypes.Find(2),
-                    Theater = context.Theaters.Find(2),
-                    AdminId = admin.Id
-                }
+                    DateTimeShowing = new DateTime(2021, 09, 01, 13, 50, 00),
+                    TicketPrice = 7,
+                    Movie = context.Movies.Find(10),
+                    ProjectionType = context.ProjectionTypes.Find(3),
+                    Theater = context.Theaters.Find(3),
+                    Admin = context.MyUsers.Find(admin.Id)
+                },
+                 new Projection()
+                 {
+                     Id = 3,
+                     DateTimeShowing = new DateTime(2021, 09, 01, 16, 00, 00),
+                     TicketPrice = 6,
+                     Movie = context.Movies.Find(5),
+                     ProjectionType = context.ProjectionTypes.Find(1),
+                     Theater = context.Theaters.Find(2),
+                     Admin = context.MyUsers.Find(admin.Id)
+                 },
+                  new Projection()
+                  {
+                      Id = 4,
+                      DateTimeShowing = new DateTime(2021, 09, 01, 18, 45, 00),
+                      TicketPrice = 6,
+                      Movie = context.Movies.Find(1),
+                      ProjectionType = context.ProjectionTypes.Find(1),
+                      Theater = context.Theaters.Find(2),
+                      Admin = context.MyUsers.Find(admin.Id)
+                  },
+                   new Projection()
+                   {
+                       Id = 5,
+                       DateTimeShowing = new DateTime(2021, 09, 01, 16, 00, 00),
+                       TicketPrice = 6,
+                       Movie = context.Movies.Find(2),
+                       ProjectionType = context.ProjectionTypes.Find(1),
+                       Theater = context.Theaters.Find(2),
+                       Admin = context.MyUsers.Find(admin.Id)
+                   }
 
                ) ;
             context.SaveChanges();

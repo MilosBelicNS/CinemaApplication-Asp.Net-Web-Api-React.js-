@@ -14,6 +14,7 @@ namespace CinemaService.Models
 
         [Required]
         public Projection Projection { get; set; }
+        
         public Seat Seat { get; set; }
         [Required]
         public User User { get; set; }

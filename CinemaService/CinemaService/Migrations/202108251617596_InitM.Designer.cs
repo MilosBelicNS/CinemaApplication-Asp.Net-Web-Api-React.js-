@@ -7,13 +7,13 @@ namespace CinemaService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitP : IMigrationMetadata
+    public sealed partial class InitM : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitP));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitM));
         
         string IMigrationMetadata.Id
         {
-            get { return "202108241552198_InitP"; }
+            get { return "202108251617596_InitM"; }
         }
         
         string IMigrationMetadata.Source
