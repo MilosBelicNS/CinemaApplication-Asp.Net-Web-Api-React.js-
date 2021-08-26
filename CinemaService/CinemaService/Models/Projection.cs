@@ -1,6 +1,7 @@
 ﻿
 using CinemaService.Models.Validations;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,7 @@ namespace CinemaService.Models
         [Required]
         [Range(1, maximum:1000)]
         public decimal TicketPrice { get; set; }
+        public bool Deleted { get; set; }
 
         [Required]
         public Movie Movie { get; set; }
@@ -31,6 +33,8 @@ namespace CinemaService.Models
         public Theater Theater { get; set; }
         
         public User Admin { get; set; }
-        
+
+        public List<Ticket> PurchasedTickets { get; set; } = new List<Ticket>();
+
     }
 }

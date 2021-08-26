@@ -228,9 +228,9 @@
     </Compile>
     <Compile Include="Interfaces\IMovieService.cs" />
     <Compile Include="Interfaces\IProjectionService.cs" />
-    <Compile Include="Migrations\202108251617596_InitM.cs" />
-    <Compile Include="Migrations\202108251617596_InitM.Designer.cs">
-      <DependentUpon>202108251617596_InitM.cs</DependentUpon>
+    <Compile Include="Migrations\202108262053278_InitialDbContext.cs" />
+    <Compile Include="Migrations\202108262053278_InitialDbContext.Designer.cs">
+      <DependentUpon>202108262053278_InitialDbContext.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -348,8 +348,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202108251617596_InitM.resx">
-      <DependentUpon>202108251617596_InitM.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202108262053278_InitialDbContext.resx">
+      <DependentUpon>202108262053278_InitialDbContext.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

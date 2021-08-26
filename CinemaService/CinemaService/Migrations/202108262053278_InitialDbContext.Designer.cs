@@ -7,13 +7,13 @@ namespace CinemaService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitM : IMigrationMetadata
+    public sealed partial class InitialDbContext : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitM));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialDbContext));
         
         string IMigrationMetadata.Id
         {
-            get { return "202108251617596_InitM"; }
+            get { return "202108262053278_InitialDbContext"; }
         }
         
         string IMigrationMetadata.Source

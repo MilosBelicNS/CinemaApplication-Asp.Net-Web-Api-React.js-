@@ -7,7 +7,7 @@ namespace CinemaService.Migrations
     using System.Collections.Generic;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-
+    using System.Data.Entity.Validation;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CinemaService.Models.ApplicationDbContext>
     {
@@ -31,8 +31,7 @@ namespace CinemaService.Migrations
 
             context.SaveChanges();
 
-
-            var user1 = new User
+            var user1 =  new User
             {
                 Email = "milos@gmail.com",
                 UserName = "milos1",
@@ -40,7 +39,7 @@ namespace CinemaService.Migrations
                 LastName = "Belic",
                 RegistrationDate = DateTime.Now
             };
-            manager.Create(user1, "Sifra.123");
+           manager.Create(user1, "Sifra.123");
 
             context.SaveChanges();
 
@@ -62,7 +61,8 @@ namespace CinemaService.Migrations
                 UserName = "perica33",
                 Name = "Petar",
                 LastName = "Kodic",
-                RegistrationDate = DateTime.Now
+                RegistrationDate = DateTime.Now,
+                
             };
             manager.Create(user3, "Kodic.1234");
 
@@ -70,7 +70,7 @@ namespace CinemaService.Migrations
 
 
            ApplicationUser admin = context.MyUsers.FirstOrDefault(x => x.UserName == "milos1");
-            //var admin = context.Users.FirstOrDefault(x => x.UserName == "milos1");
+           // var admin = context.Users.FirstOrDefault(x => x.UserName == "milos1");
 
             manager.AddToRole(admin.Id, "Administrator");
 
@@ -370,18 +370,127 @@ namespace CinemaService.Migrations
                ) ;
             context.SaveChanges();
 
-            //context.Tickets.AddOrUpdate(
-            //    new Ticket()
-            //    {
-            //        Id = 1,
-            //        DatePurchased = DateTime.Now,
-            //        Purchased = true,
-            //        Projection = context.Projections.Find(1),
-            //        User = context.Users.FirstOrDefault(user2.Id),
-            //        Seat = context.Seats.First()
-            //    }
-            //   );
-            //context.SaveChanges();
+
+            context.Tickets.AddOrUpdate(
+                     new Ticket()
+                     {
+                         Id = 1,
+                         DatePurchased = DateTime.Now,
+                         Purchased = true,
+                         Projection = context.Projections.Find(1),
+                         Customer = context.MyUsers.Find(user2.Id),
+                         Seat = context.Seats.Find(1)
+                     },
+                     
+                      new Ticket()
+                      {
+                          Id = 2,
+                          DatePurchased = DateTime.Now,
+                          Purchased = true,
+                          Projection = context.Projections.Find(1),
+                          Customer = context.MyUsers.Find(user3.Id),
+                          Seat = context.Seats.Find(2)
+                      },
+                      new Ticket()
+                      {
+                          Id = 3,
+                          DatePurchased = DateTime.Now,
+                          Purchased = true,
+                          Projection = context.Projections.Find(2),
+                          Customer = context.MyUsers.Find(user2.Id),
+                          Seat = context.Seats.Find(1)
+                      },
+                      new Ticket()
+                      {
+                          Id = 4,
+                          DatePurchased = DateTime.Now,
+                          Purchased = true,
+                          Projection = context.Projections.Find(2),
+                          Customer = context.MyUsers.Find(user3.Id),
+                          Seat = context.Seats.Find(2)
+                      },
+                      new Ticket()
+                      {
+                          Id = 5,
+                          DatePurchased = DateTime.Now,
+                          Purchased = true,
+                          Projection = context.Projections.Find(5),
+                          Customer = context.MyUsers.Find(user3.Id),
+                          Seat = context.Seats.Find(2)
+                      });
+            context.SaveChanges();
+            //try
+            //{
+            //    context.Tickets.AddOrUpdate(
+            //         new Ticket()
+            //         {
+            //             Id = 1,
+            //             DatePurchased = DateTime.Now,
+            //             Purchased = true,
+            //             Projection = context.Projections.Find(1),
+            //             Customer = context.MyUsers.Find(user2.Id),
+            //             Seat = context.Seats.Find(1)
+            //         },
+            //          new Ticket()
+            //          {
+            //              Id = 2,
+            //              DatePurchased = DateTime.Now,
+            //              Purchased = true,
+            //              Projection = context.Projections.Find(1),
+            //              Customer = context.MyUsers.Find(user3.Id),
+            //              Seat = context.Seats.Find(2)
+            //          },
+            //          new Ticket()
+            //          {
+            //              Id = 3,
+            //              DatePurchased = DateTime.Now,
+            //              Purchased = true,
+            //              Projection = context.Projections.Find(2),
+            //              Customer = context.MyUsers.Find(user2.Id),
+            //              Seat = context.Seats.Find(1)
+            //          },
+            //          new Ticket()
+            //          {
+            //              Id = 4,
+            //              DatePurchased = DateTime.Now,
+            //              Purchased = true,
+            //              Projection = context.Projections.Find(2),
+            //              Customer = context.MyUsers.Find(user3.Id),
+            //              Seat = context.Seats.Find(2)
+            //          },
+            //          new Ticket()
+            //          {
+            //              Id = 5,
+            //              DatePurchased = DateTime.Now,
+            //              Purchased = true,
+            //              Projection = context.Projections.Find(5),
+            //              Customer = context.MyUsers.Find(user3.Id),
+            //              Seat = context.Seats.Find(2)
+
+
+            //          });
+            //           context.SaveChanges();
+
+
+
+
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //          foreach (var eve in e.EntityValidationErrors)
+            //          {
+            //              Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+            //                  eve.Entry.Entity.GetType().Name, eve.Entry.State);
+            //              foreach (var ve in eve.ValidationErrors)
+            //              {
+            //                  Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+            //                      ve.PropertyName, ve.ErrorMessage);
+            //              }
+            //          }
+            //          throw;
+            //}
+
+
         }
     }
     
