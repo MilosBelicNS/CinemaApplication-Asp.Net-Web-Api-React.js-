@@ -20,7 +20,7 @@ namespace CinemaService.Models
         public DateTime DateTimeShowing { get; set; }
 
         [Required]
-        [Range(1, maximum:1000)]
+        [Range(1, maximum:100)]
         public decimal TicketPrice { get; set; }
         public bool Deleted { get; set; }
 

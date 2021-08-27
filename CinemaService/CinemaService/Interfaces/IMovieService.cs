@@ -12,6 +12,6 @@ namespace CinemaService.Interfaces
         MovieResponse GetById(int id);
         void Create(MovieRequest movieRequest);
         void Update(int id, MovieRequest movieRequest);
-        void Delete(int id);
+        void LogicDelete(int id);//samo logicko brisanje treba da postoji 
     }
 }
