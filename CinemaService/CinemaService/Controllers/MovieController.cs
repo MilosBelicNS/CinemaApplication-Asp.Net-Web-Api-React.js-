@@ -1,4 +1,7 @@
-﻿using CinemaService.Interfaces;
+﻿using AutoMapper;
+using CinemaService.Interfaces;
+using CinemaService.Models;
+using CinemaService.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +13,24 @@ namespace CinemaService.Controllers
 {
     public class MovieController : ApiController
     {
+        private readonly IMapper mapper;
+        IMovieService movieService { get; set; }
 
-        IMovieService service { get; set; }
-
-        public MovieController(IMovieService service)
+        public MovieController(IMapper mapper,IMovieService movieService)
         {
-            this.service = service;
+            this.mapper = mapper;
+            this.movieService = movieService;
         }
 
+
+        public IHttpActionResult GetAll()
+        {
+
+
+            var responses = movieService.GetAll()
+                                        .AsEnumerable()
+                                        .Select(mapper.Map<Movie, MovieResponse>);
+            return Ok(responses);
+        }
     }
 }

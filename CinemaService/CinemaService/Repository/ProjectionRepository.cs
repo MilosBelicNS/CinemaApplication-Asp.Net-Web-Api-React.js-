@@ -3,7 +3,7 @@ using CinemaService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+
 
 namespace CinemaService.Repository
 {
@@ -13,11 +13,13 @@ namespace CinemaService.Repository
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        public IEnumerable<Projection> GetByDate(DateTime dateTime)
+        public IQueryable<Projection> GetByDate(DateTime dateTime)
         {
             return db.Projections.Where(p => p.DateTimeShowing.Day.Equals(dateTime.Day));
         }
 
 
+
+        
     }
 }

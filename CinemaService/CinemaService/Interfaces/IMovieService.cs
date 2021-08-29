@@ -7,7 +7,7 @@ namespace CinemaService.Interfaces
 {
    public interface IMovieService
     {
-        IEnumerable<MovieDTO> GetAll();
+        IEnumerable<Movie> GetAll();
         IEnumerable<MovieDTO> GetByFilter(MovieFilter movieFilter);
         MovieResponse GetById(int id);
         void Create(MovieRequest movieRequest);

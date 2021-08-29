@@ -11,7 +11,7 @@ namespace CinemaService.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-         public int Id { get; set; }
+         public Guid Id { get; set; }
 
         [Required]
         [StringLength(80)]
