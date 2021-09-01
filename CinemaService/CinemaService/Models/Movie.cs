@@ -10,8 +10,8 @@ namespace CinemaService.Models
     public class Movie
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-         public Guid Id { get; set; }
+       // [DatabaseGenerated(DatabaseGeneratedOption.None)]
+         public int Id { get; set; } 
 
         [Required]
         [StringLength(80)]

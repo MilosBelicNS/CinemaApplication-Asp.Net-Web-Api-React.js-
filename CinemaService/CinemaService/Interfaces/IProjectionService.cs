@@ -10,12 +10,12 @@ namespace CinemaService.Interfaces
     public interface IProjectionService
     {
 
-        IEnumerable<ProjectionDTO> GetByDate(DateTime date);//sve projekcije za tekuci datum
-        IEnumerable<ProjectionDTO> GetByMovie(int movieId);//sve projekcije za dati film
-        IEnumerable<ProjectionDTO> GetByFilter(ProjectionFilter projectionFilter);//projekcije po filteru
-        ProjectionById GetById(int id);//projekcija po id
+        //IEnumerable<ProjectionDTO> GetByDate(DateTime date);//sve projekcije za tekuci datum
+        //IEnumerable<ProjectionDTO> GetByMovie(int movieId);//sve projekcije za dati film
+        //IEnumerable<ProjectionDTO> GetByFilter(ProjectionFilter projectionFilter);//projekcije po filteru
+        //ProjectionById GetById(int id);//projekcija po id
         
-        void Create(ProjectionRequest projectionRequest);
-        void Delete(int id);
+        //void Create(ProjectionRequest projectionRequest);
+        //void Delete(int id);
     }
 }

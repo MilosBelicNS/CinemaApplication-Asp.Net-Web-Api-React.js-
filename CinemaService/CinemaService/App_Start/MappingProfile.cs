@@ -18,8 +18,7 @@ namespace CinemaService.App_Start
 
             CreateMap<MovieRequest, Movie>();
 
-            
-            
+          
         }
     }
 }

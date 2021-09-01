@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CinemaService.Repository
 {
-    public class ProjectionRepository : IProjectionRepository, IDisposable
+    public class ProjectionRepository : IProjectionRepository
     {
 
         private ApplicationDbContext db = new ApplicationDbContext();

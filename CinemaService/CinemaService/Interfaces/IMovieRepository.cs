@@ -7,7 +7,7 @@ namespace CinemaService.Interfaces
     public interface IMovieRepository
     {
         IEnumerable<Movie> GetAll();
-        IQueryable<Movie> GetByFilter(MovieFilter movieFilter);
+        
         Movie GetById(int id);
         void Create(Movie movie);
         void Update(Movie movie);

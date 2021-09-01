@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
+﻿using AutoMapper;
+using CinemaService.App_Start;
 using CinemaService.Interfaces;
+using CinemaService.Repository;
 using CinemaService.Services;
 using Microsoft.Owin.Security.OAuth;
-using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using ProductService.Resolver;
+using System.Web.Http;
+using Unity;
+using Unity.WebApi;
 
 namespace CinemaService
 {
@@ -21,6 +21,11 @@ namespace CinemaService
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
+            var settings = config.Formatters.JsonFormatter.SerializerSettings;
+
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            settings.Formatting = Formatting.Indented;
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -30,11 +35,22 @@ namespace CinemaService
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+
+            var mapper = configuration.CreateMapper();
+
             //UnityDependency IOC
             var container = new UnityContainer();
+            container.RegisterType<IMovieRepository, MovieRepository>();
+            container.RegisterType<IMovieService, MovieService>();
+            container.RegisterInstance(mapper);
 
-            config.DependencyResolver = new UnityResolver(container);
+            config.DependencyResolver = new UnityDependencyResolver(container);
 
+            
         }
     }
 }

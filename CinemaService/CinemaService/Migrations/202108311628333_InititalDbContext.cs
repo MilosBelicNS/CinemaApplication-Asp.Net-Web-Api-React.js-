@@ -3,7 +3,7 @@ namespace CinemaService.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialDbContext : DbMigration
+    public partial class InititalDbContext : DbMigration
     {
         public override void Up()
         {
@@ -11,7 +11,7 @@ namespace CinemaService.Migrations
                 "dbo.Movies",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 80),
                         Director = c.String(nullable: false, maxLength: 50),
                         Duration = c.Int(nullable: false),
@@ -90,7 +90,7 @@ namespace CinemaService.Migrations
                 "dbo.Projections",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         DateTimeShowing = c.DateTime(nullable: false),
                         TicketPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Deleted = c.Boolean(nullable: false),
@@ -132,7 +132,7 @@ namespace CinemaService.Migrations
                 "dbo.Tickets",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Purchased = c.Boolean(nullable: false),
                         DatePurchased = c.DateTime(nullable: false),
                         Customer_Id = c.String(maxLength: 128),

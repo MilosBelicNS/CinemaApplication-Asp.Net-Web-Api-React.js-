@@ -9,13 +9,13 @@ namespace CinemaService.Interfaces
     public interface IProjectionRepository
     {
 
-        IQueryable<Projection> GetByDate(DateTime date);//sve projekcije za tekuci datum
+        //IQueryable<Projection> GetByDate(DateTime date);//sve projekcije za tekuci datum
 
-        IEnumerable<Projection> GetByMovie(int movieId);//sve projekcije za dati film
-        IQueryable<Projection> GetByFilter(ProjectionFilter projectionFilter);//projekcije po filteru
-        Projection GetById(int id);//projekcija po id
+        //IEnumerable<Projection> GetByMovie(int movieId);//sve projekcije za dati film
+        //IQueryable<Projection> GetByFilter(ProjectionFilter projectionFilter);//projekcije po filteru
+        //Projection GetById(int id);//projekcija po id
 
-        void Create(Projection Projection);
-        void Delete(int id);
+        //void Create(Projection Projection);
+        //void Delete(int id);
     }
 }

@@ -168,11 +168,11 @@ namespace CinemaService.Migrations
             }
             context.SaveChanges();
 
-
+            
             context.Movies.AddOrUpdate(
                new Movie()
                {
-                   Id = 1,
+                   
                    Name = "Da 5 Bloods",
                    Director = "Spike Lee",
                    Duration = 154,
@@ -186,7 +186,7 @@ namespace CinemaService.Migrations
                },
                new Movie()
                {
-                   Id = 2,
+                 
                    Name = "Tenet",
                    Director = "Christopher Nolan",
                    Duration = 150,
@@ -200,7 +200,7 @@ namespace CinemaService.Migrations
                },
                 new Movie()
                 {
-                    Id = 3,
+                   
                     Name = "Mank",
                     Director = " David Fincher",
                     Duration = 131,
@@ -214,7 +214,7 @@ namespace CinemaService.Migrations
                 },
                  new Movie()
                  {
-                     Id = 4,
+                    
                      Name = "I'm Thinking of Ending Things",
                      Director = "Charlie Kaufman",
                      Duration = 134,
@@ -228,7 +228,7 @@ namespace CinemaService.Migrations
                  },
                  new Movie()
                  {
-                     Id = 5,
+                    
                      Name = "Borat Subsequent",
                      Director = "Jason Woliner",
                      Duration = 96,
@@ -237,12 +237,13 @@ namespace CinemaService.Migrations
                      PicturePath = @"\slika3.jpg",
                      Year = 2020,
                      Description = "Borat returns from Kazakhstan to America and this time he reveals more about the American culture, the COVID-19 pandemic and the political elections.",
-                     Actors = new List<string> { "Sacha Baron Cohen", "Rudy Giuliani", "Maria Bakalova" },
-                     Genres = new List<string> { "Comedy", "Mockumentary" }
+                     Actors = new List<string>() {"Sacha Baron Cohen", "Rudy Giuliani", "Maria Bakalova" },
+                     Genres = new List<string>() { "Comedy", "Mockumentary" }
+
                  },
                   new Movie()
                   {
-                      Id = 6,
+                    
                       Name = "Nomadland",
                       Director = "Chloé Zhao",
                       Duration = 108,
@@ -256,7 +257,7 @@ namespace CinemaService.Migrations
                   },
                new Movie()
                {
-                   Id = 7,
+                 
                    Name = "Minari",
                    Director = "Lee Isaac Chung",
                    Duration = 115,
@@ -270,7 +271,7 @@ namespace CinemaService.Migrations
                },
                 new Movie()
                 {
-                    Id = 8,
+                  
                     Name = "Soul",
                     Director = "Pete Docter",
                     Duration = 100,
@@ -284,7 +285,7 @@ namespace CinemaService.Migrations
                 },
                  new Movie()
                  {
-                     Id = 9,
+                   
                      Name = "Another Round - Mads Mikkelsen in Druk",
                      Director ="Thomas Vinterberg",
                      Duration = 117,
@@ -298,7 +299,7 @@ namespace CinemaService.Migrations
                  },
                  new Movie()
                  {
-                     Id = 10,
+                     
                      Name = "Onward",
                      Director = "Dan Scanlonr",
                      Duration = 102,
@@ -318,7 +319,7 @@ namespace CinemaService.Migrations
             context.Projections.AddOrUpdate(
                 new Projection()
                 {
-                    Id = 1,
+                    
                     DateTimeShowing = new DateTime(2021, 09, 01, 12, 00, 00),
                     TicketPrice = 4,
                     Movie = context.Movies.Find(8),
@@ -328,7 +329,7 @@ namespace CinemaService.Migrations
                 },
                 new Projection()
                 {
-                    Id = 2,
+                    
                     DateTimeShowing = new DateTime(2021, 09, 01, 13, 50, 00),
                     TicketPrice = 7,
                     Movie = context.Movies.Find(10),
@@ -338,7 +339,7 @@ namespace CinemaService.Migrations
                 },
                  new Projection()
                  {
-                     Id = 3,
+                     
                      DateTimeShowing = new DateTime(2021, 09, 01, 16, 00, 00),
                      TicketPrice = 6,
                      Movie = context.Movies.Find(5),
@@ -348,7 +349,7 @@ namespace CinemaService.Migrations
                  },
                   new Projection()
                   {
-                      Id = 4,
+                      
                       DateTimeShowing = new DateTime(2021, 09, 01, 18, 45, 00),
                       TicketPrice = 6,
                       Movie = context.Movies.Find(1),
@@ -358,7 +359,7 @@ namespace CinemaService.Migrations
                   },
                    new Projection()
                    {
-                       Id = 5,
+                       
                        DateTimeShowing = new DateTime(2021, 09, 01, 16, 00, 00),
                        TicketPrice = 6,
                        Movie = context.Movies.Find(2),
@@ -374,7 +375,7 @@ namespace CinemaService.Migrations
             context.Tickets.AddOrUpdate(
                      new Ticket()
                      {
-                         Id = 1,
+                         
                          DatePurchased = DateTime.Now,
                          Purchased = true,
                          Projection = context.Projections.Find(1),
@@ -384,7 +385,7 @@ namespace CinemaService.Migrations
                      
                       new Ticket()
                       {
-                          Id = 2,
+                          
                           DatePurchased = DateTime.Now,
                           Purchased = true,
                           Projection = context.Projections.Find(1),
@@ -393,7 +394,7 @@ namespace CinemaService.Migrations
                       },
                       new Ticket()
                       {
-                          Id = 3,
+                          
                           DatePurchased = DateTime.Now,
                           Purchased = true,
                           Projection = context.Projections.Find(2),
@@ -402,7 +403,7 @@ namespace CinemaService.Migrations
                       },
                       new Ticket()
                       {
-                          Id = 4,
+                         
                           DatePurchased = DateTime.Now,
                           Purchased = true,
                           Projection = context.Projections.Find(2),
@@ -411,7 +412,7 @@ namespace CinemaService.Migrations
                       },
                       new Ticket()
                       {
-                          Id = 5,
+                          
                           DatePurchased = DateTime.Now,
                           Purchased = true,
                           Projection = context.Projections.Find(5),
@@ -419,76 +420,7 @@ namespace CinemaService.Migrations
                           Seat = context.Seats.Find(2)
                       });
             context.SaveChanges();
-            //try
-            //{
-            //    context.Tickets.AddOrUpdate(
-            //         new Ticket()
-            //         {
-            //             Id = 1,
-            //             DatePurchased = DateTime.Now,
-            //             Purchased = true,
-            //             Projection = context.Projections.Find(1),
-            //             Customer = context.MyUsers.Find(user2.Id),
-            //             Seat = context.Seats.Find(1)
-            //         },
-            //          new Ticket()
-            //          {
-            //              Id = 2,
-            //              DatePurchased = DateTime.Now,
-            //              Purchased = true,
-            //              Projection = context.Projections.Find(1),
-            //              Customer = context.MyUsers.Find(user3.Id),
-            //              Seat = context.Seats.Find(2)
-            //          },
-            //          new Ticket()
-            //          {
-            //              Id = 3,
-            //              DatePurchased = DateTime.Now,
-            //              Purchased = true,
-            //              Projection = context.Projections.Find(2),
-            //              Customer = context.MyUsers.Find(user2.Id),
-            //              Seat = context.Seats.Find(1)
-            //          },
-            //          new Ticket()
-            //          {
-            //              Id = 4,
-            //              DatePurchased = DateTime.Now,
-            //              Purchased = true,
-            //              Projection = context.Projections.Find(2),
-            //              Customer = context.MyUsers.Find(user3.Id),
-            //              Seat = context.Seats.Find(2)
-            //          },
-            //          new Ticket()
-            //          {
-            //              Id = 5,
-            //              DatePurchased = DateTime.Now,
-            //              Purchased = true,
-            //              Projection = context.Projections.Find(5),
-            //              Customer = context.MyUsers.Find(user3.Id),
-            //              Seat = context.Seats.Find(2)
-
-
-            //          });
-            //           context.SaveChanges();
-
-
-
-
-            //}
-            //catch (DbEntityValidationException e)
-            //{
-            //          foreach (var eve in e.EntityValidationErrors)
-            //          {
-            //              Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-            //                  eve.Entry.Entity.GetType().Name, eve.Entry.State);
-            //              foreach (var ve in eve.ValidationErrors)
-            //              {
-            //                  Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-            //                      ve.PropertyName, ve.ErrorMessage);
-            //              }
-            //          }
-            //          throw;
-            //}
+           
 
 
         }
