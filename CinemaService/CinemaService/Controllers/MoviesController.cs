@@ -1,12 +1,8 @@
-﻿using AutoMapper;
-using CinemaService.Interfaces;
+﻿using CinemaService.Interfaces;
 using CinemaService.Models;
 using CinemaService.Models.DTOs;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -31,13 +27,15 @@ namespace CinemaService.Controllers
 
         }
 
+        [Authorize]
         [HttpPost]
         [Route("api/Filter")]
         public IEnumerable<MovieDTO> PostFilter(MovieFilter movieFilter)
         {
-            return service.GetByFilter(movieFilter);
+            return service.Filter(movieFilter);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("{id:int}")]
         [ResponseType(typeof(MovieResponse))]
@@ -52,19 +50,26 @@ namespace CinemaService.Controllers
             return Ok(movie);
         }
 
+        [Authorize]
         [HttpPost]
-        public IHttpActionResult Post([FromBody]MovieRequest movieRequest)
+        public IHttpActionResult Post(MovieRequest movieRequest)
         {
-              if (!ModelState.IsValid)
-              return BadRequest("Invalid data.");
+            if (User.IsInRole("Administrator"))
+            {
 
-              service.Create(movieRequest);
+                if (!ModelState.IsValid)
+                    return BadRequest("Invalid data.");
 
-              return Created("DefaultApi", movieRequest);
+                service.Create(movieRequest);
 
+                return Created("DefaultApi", movieRequest);
+            }
+            return Unauthorized();
+           
 
         }
 
+        [Authorize]
         [HttpPut]
         public IHttpActionResult Put(int id, MovieRequest movieRequest)
         {
@@ -72,26 +77,36 @@ namespace CinemaService.Controllers
 
             if (!ModelState.IsValid)
             return BadRequest(ModelState);
-            
 
-            try
+            if (User.IsInRole("Administrator"))
             {
-                service.Update(id, movieRequest);
+
+                try
+                {
+                    service.Update(id, movieRequest);
+                }
+                catch
+                {
+                    return Conflict();
+                }
+                return StatusCode(HttpStatusCode.NoContent);
             }
-            catch
-            {
-                return Conflict();
-            }
-            return StatusCode(HttpStatusCode.NoContent);
+            return Unauthorized();
+               
+            
         }
 
+        [Authorize]
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
-           
-            service.Delete(id);
-            
-            return StatusCode(HttpStatusCode.NoContent);
+            if (User.IsInRole("Administrator"))
+            {
+                service.Delete(id);
+
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            return Unauthorized();
         }
 
 

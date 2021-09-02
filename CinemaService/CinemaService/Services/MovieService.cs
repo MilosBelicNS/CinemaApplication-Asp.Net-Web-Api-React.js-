@@ -2,10 +2,8 @@
 using CinemaService.Interfaces;
 using CinemaService.Models;
 using CinemaService.Models.DTOs;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace CinemaService.Services
 {
@@ -31,7 +29,7 @@ namespace CinemaService.Services
             return mappedMovies;
         }
 
-        public IEnumerable<MovieDTO> GetByFilter(MovieFilter movieFilter)
+        public IEnumerable<MovieDTO> Filter(MovieFilter movieFilter)
         {
             var movies =  repository.GetAll();
 
