@@ -1,16 +1,13 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+
 
 namespace CinemaService.Models
 {
     public class Movie
     {
         [Key]
-       // [DatabaseGenerated(DatabaseGeneratedOption.None)]
          public int Id { get; set; } 
 
         [Required]
@@ -44,13 +41,13 @@ namespace CinemaService.Models
         public string Description { get; set; }
 
         public bool Deleted { get; set; }
-
-
-
-
         public List<string> Actors { get; set; }
-       
+
         public List<string> Genres { get; set; }
+
+
+        public virtual IEnumerable<Projection> Projections { get; set; }
+      
 
 
     }

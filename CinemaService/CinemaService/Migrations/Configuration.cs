@@ -223,8 +223,8 @@ namespace CinemaService.Migrations
                      PicturePath = @"\slika4.jpg",
                      Year = 2020,
                      Description = "Full of misgivings, a young woman travels with her new boyfriend to his parents' secluded farm. Upon arriving, she comes to question everything she thought she knew about him, and herself.",
-                     Actors = new List<string> { "Jesse Plemons", "Jessie Buckley", "Toni Collette", "David Thewlis" },
-                     Genres = new List<string> { "Horror" }
+                     Actors = new List<string>() { "Jesse Plemons", "Jessie Buckley", "Toni Collette", "David Thewlis" },
+                     Genres = new List<string>() { "Horror" }
                  },
                  new Movie()
                  {

@@ -38,7 +38,7 @@ namespace CinemaService.Services
                 movies = movies.Where(n => n.Name.Contains(movieFilter.Name));
             }
 
-            if (movieFilter.DurationStart != null & movieFilter.DurationStart != 0 && movieFilter.DurationStop != null & movieFilter.DurationStop != 0)
+            if (movieFilter.DurationStart != null & movieFilter.DurationStart != 0 || movieFilter.DurationStop != null & movieFilter.DurationStop != 0)
             {
                 movies = movies.Where(x => x.Duration >= movieFilter.DurationStart && x.Duration <= movieFilter.DurationStop);
             }

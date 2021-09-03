@@ -237,6 +237,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="DTOs\ProjectionById.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -255,8 +256,7 @@
     <Compile Include="DTOs\MovieResponse.cs" />
     <Compile Include="DTOs\MovieDTO.cs" />
     <Compile Include="DTOs\MovieRequest.cs" />
-    <Compile Include="DTOs\ProjectionById.cs" />
-    <Compile Include="DTOs\ProjectionDTO.cs" />
+    <Compile Include="DTOs\ProjectionResponse.cs" />
     <Compile Include="DTOs\ProjectionRequest.cs" />
     <Compile Include="DTOs\TicketById.cs" />
     <Compile Include="DTOs\TicketDTO.cs" />

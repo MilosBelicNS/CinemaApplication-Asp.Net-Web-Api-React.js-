@@ -12,10 +12,9 @@ namespace CinemaService.Models.Filters
         public decimal? StartPrice { get; set; }
         public decimal? EndPrice { get; set; }
         public string  MovieName { get; set; }
-        public int OrderBy { get; set; }
-
         public string ProjectionType { get; set; }
         public string Theatar { get; set; }
+        public string OrderBy { get; set; }
 
     }
 }

@@ -46,6 +46,10 @@ namespace CinemaService
             var container = new UnityContainer();
             container.RegisterType<IMovieRepository, MovieRepository>();
             container.RegisterType<IMovieService, MovieService>();
+
+            container.RegisterType<IProjectionRepository, ProjectionRepository>();
+            container.RegisterType<IProjectionService, ProjectionService>();
+
             container.RegisterInstance(mapper);
 
             config.DependencyResolver = new UnityDependencyResolver(container);

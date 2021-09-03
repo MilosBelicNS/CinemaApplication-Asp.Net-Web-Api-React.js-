@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using CinemaService.Models;
 using CinemaService.Models.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 
 namespace CinemaService.App_Start
 {
@@ -14,9 +11,9 @@ namespace CinemaService.App_Start
         {
             CreateMap<Movie, MovieResponse>();
             CreateMap<Movie, MovieDTO>();
-            CreateMap<MovieDTO, Movie>();
-
             CreateMap<MovieRequest, Movie>();
+
+            CreateMap<Projection, ProjectionResponse>();
 
           
         }
