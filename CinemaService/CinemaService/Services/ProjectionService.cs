@@ -130,7 +130,10 @@ namespace CinemaService.Services
         public void Create(ProjectionRequest projectionRequest)
         {
             Projection projection = mapper.Map<Projection>(projectionRequest);
-            repository.Create(projection);
+            if (projection.Movie.Deleted != true)
+            {
+                repository.Create(projection);
+            }
         }
 
         public void Delete(int id)

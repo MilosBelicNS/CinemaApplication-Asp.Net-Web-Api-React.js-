@@ -10,19 +10,22 @@ namespace CinemaService.Services
     public class MovieService : IMovieService
     {
 
-        public IMovieRepository repository { get; set; }
+        public IMovieRepository movieRepository { get; set; }
+        public IProjectionRepository projectionRepository { get; set; }
         public  IMapper mapper{ get;  set; }
 
-        public MovieService(IMovieRepository repository, IMapper mapper)
+        public MovieService(IMovieRepository movieRepository,IProjectionRepository projectionRepository,  IMapper mapper)
         {
-            this.repository = repository;
+            this.movieRepository = movieRepository;
+            this.projectionRepository = projectionRepository;
             this.mapper = mapper;
         }
       
         public IEnumerable<MovieResponse> GetAll()
         {
 
-            var movies = repository.GetAll();
+            var movies = movieRepository.GetAll()
+                                        .Where(x => x.Deleted == false);
            
             var mappedMovies = mapper.Map<IEnumerable<MovieResponse>>(movies);
                                         
@@ -31,7 +34,8 @@ namespace CinemaService.Services
 
         public IEnumerable<MovieDTO> Filter(MovieFilter movieFilter)
         {
-            var movies =  repository.GetAll();
+            var movies =  movieRepository.GetAll()
+                                         .Where(x => x.Deleted == false);
 
             if (!string.IsNullOrWhiteSpace(movieFilter.Name))
             {
@@ -53,7 +57,7 @@ namespace CinemaService.Services
                 movies = movies.Where(x => x.Country.Contains(movieFilter.Country));
             }
 
-            if (movieFilter.StartYear != null & movieFilter.StartYear != 0 && movieFilter.EndYear != null & movieFilter.EndYear != 0)
+            if (movieFilter.StartYear != null & movieFilter.StartYear != 0 && movieFilter.EndYear != null & movieFilter.EndYear != 0)//jel dobro?
             {
                 movies = movies.Where(x => x.Year >= movieFilter.StartYear && x.Year <= movieFilter.EndYear);
             }
@@ -105,7 +109,7 @@ namespace CinemaService.Services
 
          public MovieResponse GetById(int id)
          {
-            var movie = repository.GetById(id);
+            var movie = movieRepository.GetById(id);
 
             MovieResponse mappedMovie = mapper.Map<MovieResponse>(movie);
 
@@ -117,7 +121,7 @@ namespace CinemaService.Services
         {
 
             Movie movie = mapper.Map<Movie>(movieRequest);
-            repository.Create(movie);
+            movieRepository.Create(movie);
         }
 
         public void Update(int id, MovieRequest movieRequest)
@@ -125,13 +129,26 @@ namespace CinemaService.Services
             Movie movie = mapper.Map<Movie>(movieRequest);
             movie.Id = id;
 
-            repository.Create(movie);
+            movieRepository.Create(movie);
         }
 
 
         public void Delete(int id)
         {
-            repository.Delete(id);
+            var projectionsWithMovie = projectionRepository.GetAll()
+                                                           .Where(p => p.Movie.Id == id);
+
+            if(projectionsWithMovie != null)
+            {
+                foreach (Projection p in projectionsWithMovie)
+                {
+                    p.Movie.Deleted = true;
+                }
+                
+            }
+            movieRepository.Delete(id);
+
+
         }
     }
 }
