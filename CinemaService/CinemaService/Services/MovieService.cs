@@ -129,7 +129,7 @@ namespace CinemaService.Services
             Movie movie = mapper.Map<Movie>(movieRequest);
             movie.Id = id;
 
-            movieRepository.Create(movie);
+            movieRepository.Update(movie);
         }
 
 

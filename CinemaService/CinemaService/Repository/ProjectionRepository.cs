@@ -18,7 +18,7 @@ namespace CinemaService.Repository
         public IEnumerable<Projection> GetAll()
         {
             
-            return db.Projections.Include(p => p.Movie);
+            return db.Projections;
         }
 
         public Projection GetById(int id)

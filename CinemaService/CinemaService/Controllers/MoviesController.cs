@@ -8,6 +8,7 @@ using System.Web.Http.Description;
 
 namespace CinemaService.Controllers
 {
+    [RoutePrefix("api/Movies")]
     public class MoviesController : ApiController
     {
 
@@ -29,7 +30,7 @@ namespace CinemaService.Controllers
 
         [Authorize]
         [HttpPost]
-        [Route("api/Filter")]
+        [Route("FilterSort")]
         public IEnumerable<MovieDTO> PostFilter(MovieFilter movieFilter)
         {
             return service.Filter(movieFilter);
