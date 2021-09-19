@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CinemaService.DTOs;
 using CinemaService.Interfaces;
 using CinemaService.Models;
 using CinemaService.Models.DTOs;
@@ -10,54 +11,50 @@ namespace CinemaService.Services
     public class MovieService : IMovieService
     {
 
-        public IMovieRepository movieRepository { get; set; }
-        public IProjectionRepository projectionRepository { get; set; }
-        public  IMapper mapper{ get;  set; }
+        private IMovieRepository movieRepository { get; set; }
+        private IMapper mapper { get; set; }
 
-        public MovieService(IMovieRepository movieRepository,IProjectionRepository projectionRepository,  IMapper mapper)
+        public MovieService(IMovieRepository movieRepository, IMapper mapper)
         {
             this.movieRepository = movieRepository;
-            this.projectionRepository = projectionRepository;
             this.mapper = mapper;
         }
-      
+
         public IEnumerable<MovieResponse> GetAll()
         {
 
             var movies = movieRepository.GetAll()
                                         .Where(x => x.Deleted == false);
-           
-            var mappedMovies = mapper.Map<IEnumerable<MovieResponse>>(movies);
-                                        
-            return mappedMovies;
+
+            return mapper.Map<IEnumerable<MovieResponse>>(movies);
         }
 
-        public IEnumerable<MovieDTO> Filter(MovieFilter movieFilter)
+        public IEnumerable<MovieResponse> Filter(MovieFilter movieFilter)
         {
-            var movies =  movieRepository.GetAll()
+            var movies = movieRepository.GetAll()
                                          .Where(x => x.Deleted == false);
 
-            if (!string.IsNullOrWhiteSpace(movieFilter.Name))
+            if (!string.IsNullOrEmpty(movieFilter.Name))
             {
                 movies = movies.Where(n => n.Name.Contains(movieFilter.Name));
             }
 
-            if (movieFilter.DurationStart != null & movieFilter.DurationStart != 0 || movieFilter.DurationStop != null & movieFilter.DurationStop != 0)
+            if (movieFilter.DurationStart != null || movieFilter.DurationStop != null)
             {
                 movies = movies.Where(x => x.Duration >= movieFilter.DurationStart && x.Duration <= movieFilter.DurationStop);
             }
 
-            if (movieFilter.Genre != null & movieFilter.Genre != "")
+            if (!string.IsNullOrEmpty(movieFilter.Genre))
             {
-                movies = movies.Where(x => x.Genres.Contains(movieFilter.Genre));
+                movies = movies.Where(x => x.Genre.Contains(movieFilter.Genre));
             }
 
-            if (movieFilter.Country != null & movieFilter.Country != "")
+            if (!string.IsNullOrEmpty(movieFilter.Country))
             {
                 movies = movies.Where(x => x.Country.Contains(movieFilter.Country));
             }
 
-            if (movieFilter.StartYear != null & movieFilter.StartYear != 0 && movieFilter.EndYear != null & movieFilter.EndYear != 0)//jel dobro?
+            if (movieFilter.StartYear != null && movieFilter.EndYear != null)
             {
                 movies = movies.Where(x => x.Year >= movieFilter.StartYear && x.Year <= movieFilter.EndYear);
             }
@@ -102,20 +99,20 @@ namespace CinemaService.Services
                 movies = movies.OrderByDescending(x => x.Year);
             }
 
-            var mappedMovies = mapper.Map<IEnumerable<MovieDTO>>(movies);
+            var mappedMovies = mapper.Map<IEnumerable<MovieResponse>>(movies);
 
             return mappedMovies;
         }
 
-         public MovieResponse GetById(int id)
-         {
+        public MovieById GetById(int id)
+        {
             var movie = movieRepository.GetById(id);
 
-            MovieResponse mappedMovie = mapper.Map<MovieResponse>(movie);
+            MovieById mappedMovie = mapper.Map<MovieById>(movie);
 
             return mappedMovie;
 
-         }
+        }
 
         public void Create(MovieRequest movieRequest)
         {
@@ -135,17 +132,14 @@ namespace CinemaService.Services
 
         public void Delete(int id)
         {
-            var projectionsWithMovie = projectionRepository.GetAll()
-                                                           .Where(p => p.Movie.Id == id);
 
-            if(projectionsWithMovie != null)
+            Movie movie = movieRepository.GetById(id);
+
+            if (movie.Projections != null)
             {
-                foreach (Projection p in projectionsWithMovie)
-                {
-                    p.Movie.Deleted = true;
-                }
-                
+                movie.Deleted = true;
             }
+
             movieRepository.Delete(id);
 
 

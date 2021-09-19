@@ -1,52 +1,59 @@
 ﻿using CinemaService.Interfaces;
 using CinemaService.Models;
 using System;
-using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CinemaService.Repository
 {
-    public class ProjectionRepository : IProjectionRepository, IDisposable
+    public class TicketRepository : ITicketRepository, IDisposable
     {
-
-       
-
         private ApplicationDbContext db;
 
-        public ProjectionRepository(ApplicationDbContext db)
+        public TicketRepository(ApplicationDbContext db)
         {
             this.db = db;
         }
 
 
-        public IEnumerable<Projection> GetAll()
+        public IEnumerable<Ticket> GetAll()
         {
 
-            return db.Projections.Include(x => x.Tickets);
+            return db.Tickets;
         }
 
-        public Projection GetById(int id)
+        public Ticket GetById(int id)
         {
 
-            return db.Projections.Include(x => x.Tickets)
-                                 .Where(x => x.Id == id)
-                                 .FirstOrDefault();
+            return db.Tickets.Find(id);
 
         }
 
-        public void Create(Projection projection)
+        public void Create(Ticket ticket)
         {
 
-            db.Projections.Add(projection);
+
+            ticket.Seat = ticket.Projection.Theater.Seats
+                                 .Where(x => x.Free == true)
+                                 .First();
+
+
+
+
+            ticket.Seat.Free = false;
+
+            db.Tickets.Add(ticket);
             db.SaveChanges();
+
         }
+
+
 
         public void Delete(int id)
         {
-            Projection projection = db.Projections.Find(id);
+            Ticket ticket = db.Tickets.Find(id);
 
-            db.Projections.Remove(projection);
+            db.Tickets.Remove(ticket);
             db.SaveChanges();
         }
 

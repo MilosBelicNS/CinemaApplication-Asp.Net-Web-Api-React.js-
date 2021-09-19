@@ -7,14 +7,15 @@ using CinemaService.Models.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+
 
 namespace CinemaService.Services
 {
     public class ProjectionService : IProjectionService
     {
-        public IProjectionRepository repository { get; set; }
-        public IMapper mapper { get; set; }
+        private IProjectionRepository repository { get; set; }
+
+        private IMapper mapper { get; set; }
 
         public ProjectionService(IProjectionRepository repository, IMapper mapper)
         {
@@ -25,40 +26,42 @@ namespace CinemaService.Services
         public IEnumerable<ProjectionResponse> GetAll()
         {
 
-            var projections = repository.GetAll();
+            var projections = repository.GetAll()
+                                        .Where(x => x.Deleted == false);
 
-            var mappedProjections = mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
 
-            return mappedProjections;
+
         }
 
-        public  IEnumerable<ProjectionResponse> GetByDate(DateTime dateTime)
+        public IEnumerable<ProjectionResponse> GetByDate(DateTime dateTime)
         {
-             var projections =  repository.GetAll()
-                                          .Where(p => p.DateTimeShowing.Day.Equals(dateTime.Day))
-                                          .OrderBy(p => p.Movie.Name)
-                                          .OrderBy(p => p.DateTimeShowing);
+            var projections = repository.GetAll()
+                                         .Where(p => p.DateTimeShowing.Day.Equals(dateTime.Day))
+                                         .OrderBy(p => p.Movie.Name)
+                                         .OrderBy(p => p.DateTimeShowing);
 
-            var mappedProjections = mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
 
-            return mappedProjections;
+
         }
 
         public IEnumerable<ProjectionResponse> Filter(ProjectionFilter projectionFilter)
         {
-            var projections = repository.GetAll();
+            var projections = repository.GetAll()
+                                        .Where(x => x.Deleted == false); ;
 
             if (!string.IsNullOrWhiteSpace(projectionFilter.MovieName))
             {
                 projections = projections.Where(n => n.Movie.Name.Contains(projectionFilter.MovieName));
             }
 
-            if (projectionFilter.StartDateTime != null  || projectionFilter.EndDateTime != null)
+            if (projectionFilter.StartDateTime != null || projectionFilter.EndDateTime != null)
             {
                 projections = projections.Where(x => x.DateTimeShowing >= projectionFilter.StartDateTime && x.DateTimeShowing <= projectionFilter.EndDateTime);
             }
 
-            if (projectionFilter.StartPrice != null & projectionFilter.StartPrice != 0 || projectionFilter.EndPrice != null & projectionFilter.EndPrice != 0)
+            if (projectionFilter.StartPrice != null || projectionFilter.EndPrice != null)
             {
                 projections = projections.Where(x => x.TicketPrice >= projectionFilter.StartPrice && x.TicketPrice <= projectionFilter.EndPrice);
             }
@@ -113,18 +116,43 @@ namespace CinemaService.Services
                 projections = projections.OrderByDescending(x => x.Theater.Name);
             }
 
-            var mappedProjections = mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
 
-            return mappedProjections;
+
+        }
+
+        public IEnumerable<ProjectionResponse> GetByMovieId(int movieId, string sortType)
+        {
+            var projections = repository.GetAll().Where(x => x.Movie.Id == movieId && x.DateTimeShowing > DateTime.Now && x.SoldOut == false);
+
+            if (sortType.Contains("DateTimeShowing"))
+            {
+                projections = projections.OrderBy(x => x.DateTimeShowing);
+            }
+
+            if (sortType.Contains("DateTimeShowingDesc"))
+            {
+                projections = projections.OrderByDescending(x => x.DateTimeShowing);
+            }
+
+
+            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+
         }
 
         public ProjectionById GetById(int id)
         {
             var projection = repository.GetById(id);
 
-            var mappedProjection = mapper.Map<ProjectionById>(projection);
+            int freeSeats = projection.Theater.Seats.Where(x => x.Free == true).Count();
 
-            return mappedProjection;
+            ProjectionById projectionById = mapper.Map<ProjectionById>(projection);
+
+            projectionById.FreeSeats = freeSeats;
+
+            return projectionById;
+
+
         }
 
         public void Create(ProjectionRequest projectionRequest)
@@ -138,6 +166,13 @@ namespace CinemaService.Services
 
         public void Delete(int id)
         {
+            Projection projection = repository.GetById(id);
+
+            if (projection.Tickets != null)
+            {
+                projection.Deleted = true;
+            }
+
             repository.Delete(id);
         }
 

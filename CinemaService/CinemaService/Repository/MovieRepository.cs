@@ -4,17 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
 
 namespace CinemaService.Repository
 {
     public class MovieRepository : IMovieRepository, IDisposable
     {
 
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public MovieRepository(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
 
         public IEnumerable<Movie> GetAll()
         {
-            return db.Movies;
+            return db.Movies.Include(x => x.Projections);
         }
 
         
@@ -22,7 +28,9 @@ namespace CinemaService.Repository
         public Movie GetById(int id)
         {
             
-            return db.Movies.Find(id);
+            return db.Movies.Include(x => x.Projections)
+                            .Where(x => x.Id == id)
+                            .FirstOrDefault();
 
         }
 

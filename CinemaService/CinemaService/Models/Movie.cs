@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -39,14 +38,12 @@ namespace CinemaService.Models
         [Required]
         [StringLength(300)]
         public string Description { get; set; }
+        public string Genre  { get; set; }
 
         public bool Deleted { get; set; }
-        public List<string> Actors { get; set; }
+        public HashSet<string> Actors { get; set; } = new HashSet<string>();
 
-        public List<string> Genres { get; set; }
-
-
-        public virtual IEnumerable<Projection> Projections { get; set; }
+        public IEnumerable<Projection> Projections { get; set; } 
       
 
 

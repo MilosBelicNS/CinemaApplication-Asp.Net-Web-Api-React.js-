@@ -11,8 +11,7 @@ namespace CinemaService.Interfaces
         Projection GetById(int id);
         void Create(Projection Projection);
         void Delete(int id);
-        //IEnumerable<Projection> GetByMovie(int movieId);//sve projekcije za dati film
-        //IQueryable<Projection> GetByFilter(ProjectionFilter projectionFilter);//projekcije po filteru
+        
 
 
 

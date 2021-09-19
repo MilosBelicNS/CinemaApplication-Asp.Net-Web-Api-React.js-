@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CinemaService.Models.DTOs
@@ -28,6 +27,10 @@ namespace CinemaService.Models.DTOs
         public string Country { get; set; }
 
         [Required]
+        [StringLength(50)]
+        public string Genre { get; set; }
+
+        [Required]
         [Range(1950, 2021)]
         public int Year { get; set; }
 
@@ -35,11 +38,8 @@ namespace CinemaService.Models.DTOs
         [StringLength(300)]
         public string Description { get; set; }
 
-
-
         [Required]
         public IEnumerable<string> Actors { get; set; }
-        [Required]
-        public IEnumerable<string> Genres { get; set; }
+
     }
 }

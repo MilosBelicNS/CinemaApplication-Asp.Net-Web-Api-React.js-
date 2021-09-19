@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CinemaService.Models
 {
@@ -9,7 +8,6 @@ namespace CinemaService.Models
     {
 
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
         [StringLength(50)]
@@ -17,19 +15,19 @@ namespace CinemaService.Models
         [Required]
         public bool Free { get; set; }
 
-       
-        public  virtual ICollection<ProjectionType> ProjectionTypes { get; set; }
-        
+        public IEnumerable<Seat> Seats { get; set; }
+        public ICollection<ProjectionType> ProjectionTypes { get; set; }
+
 
 
         public Theater()
         {
             this.ProjectionTypes = new HashSet<ProjectionType>();
-            
+
         }
 
-      
 
-        
+
+
     }
 }

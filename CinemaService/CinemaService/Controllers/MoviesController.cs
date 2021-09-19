@@ -1,4 +1,5 @@
-﻿using CinemaService.Interfaces;
+﻿using CinemaService.DTOs;
+using CinemaService.Interfaces;
 using CinemaService.Models;
 using CinemaService.Models.DTOs;
 using System.Collections.Generic;
@@ -12,13 +13,12 @@ namespace CinemaService.Controllers
     public class MoviesController : ApiController
     {
 
-        
         IMovieService service { get; set; }
 
-        public MoviesController(IMovieService movieService)
+        public MoviesController(IMovieService service)
         {
-           
-            this.service = movieService;
+
+            this.service = service;
         }
 
         [HttpGet()]
@@ -29,17 +29,17 @@ namespace CinemaService.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost()]
         [Route("FilterSort")]
-        public IEnumerable<MovieDTO> PostFilter(MovieFilter movieFilter)
+        public IEnumerable<MovieResponse> PostFilter(MovieFilter movieFilter)
         {
             return service.Filter(movieFilter);
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet()]
         [Route("{id:int}")]
-        [ResponseType(typeof(MovieResponse))]
+        [ResponseType(typeof(MovieById))]
         public IHttpActionResult GetById(int id)
         {
             var movie = service.GetById(id);
@@ -51,63 +51,55 @@ namespace CinemaService.Controllers
             return Ok(movie);
         }
 
-        [Authorize]
-        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        [HttpPost()]
         public IHttpActionResult Post(MovieRequest movieRequest)
         {
-            if (User.IsInRole("Administrator"))
-            {
 
-                if (!ModelState.IsValid)
-                    return BadRequest("Invalid data.");
-
-                service.Create(movieRequest);
-
-                return Created("DefaultApi", movieRequest);
-            }
-            return Unauthorized();
-           
-
-        }
-
-        [Authorize]
-        [HttpPut]
-        public IHttpActionResult Put(int id, MovieRequest movieRequest)
-        {
-            
 
             if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+                return BadRequest("Invalid data.");
 
-            if (User.IsInRole("Administrator"))
-            {
+            service.Create(movieRequest);
 
-                try
-                {
-                    service.Update(id, movieRequest);
-                }
-                catch
-                {
-                    return Conflict();
-                }
-                return StatusCode(HttpStatusCode.NoContent);
-            }
-            return Unauthorized();
-               
-            
+            return Created("DefaultApi", movieRequest);
+
+
+
         }
 
-        [Authorize]
-        [HttpDelete]
+        [Authorize(Roles = "Administrator")]
+        [HttpPut()]
+        public IHttpActionResult Put(int id, MovieRequest movieRequest)
+        {
+
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                service.Update(id, movieRequest);
+            }
+            catch
+            {
+                return Conflict();
+            }
+            return StatusCode(HttpStatusCode.NoContent);
+
+
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete()]
+        [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
-            if (User.IsInRole("Administrator"))
-            {
-                service.Delete(id);
 
-                return StatusCode(HttpStatusCode.NoContent);
-            }
-            return Unauthorized();
+            service.Delete(id);
+
+            return StatusCode(HttpStatusCode.NoContent);
+
         }
 
 

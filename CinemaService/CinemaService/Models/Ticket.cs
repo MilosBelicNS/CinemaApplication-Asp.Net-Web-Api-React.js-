@@ -8,14 +8,10 @@ namespace CinemaService.Models
     public class Ticket
     {
         [Key]
-       // [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        public bool Purchased { get; set; }
-
         [Required]
-        
-        public DateTime DatePurchased { get; set; }
+        public DateTime DatePurchased { get; set; } 
 
         [Required]
         public Projection Projection { get; set; }

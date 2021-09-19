@@ -50,6 +50,9 @@ namespace CinemaService
             container.RegisterType<IProjectionRepository, ProjectionRepository>();
             container.RegisterType<IProjectionService, ProjectionService>();
 
+            container.RegisterType<ITicketRepository, TicketRepository>();
+            container.RegisterType<ITicketService, TicketService>();
+
             container.RegisterInstance(mapper);
 
             config.DependencyResolver = new UnityDependencyResolver(container);

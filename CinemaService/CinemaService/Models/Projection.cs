@@ -20,7 +20,6 @@ namespace CinemaService.Models
         [Required]
         [Range(1, maximum:100)]
         public decimal TicketPrice { get; set; }
-        public bool Deleted { get; set; }
 
         [Required]
         public Movie Movie { get; set; }
@@ -32,7 +31,10 @@ namespace CinemaService.Models
         
         public User Admin { get; set; }
 
-        public List<Ticket> PurchasedTickets { get; set; } = new List<Ticket>();
+        public bool Deleted { get; set; }
+        public bool SoldOut { get; set; }
+
+        public IEnumerable<Ticket> Tickets { get; set; }
 
     }
 }
