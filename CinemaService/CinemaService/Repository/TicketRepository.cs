@@ -33,17 +33,7 @@ namespace CinemaService.Repository
       {
 
 
-         ticket.Seat = ticket.Projection.Theater.Seats
-                              .Where(x => x.Free == true)
-                              .First();
          
-
-         ticket.Seat.Free = false;
-
-         if(ticket.Projection.Theater.Free == false)
-         {
-            ticket.Projection.SoldOut = true;
-         }
 
          db.Tickets.Add(ticket);
          db.SaveChanges();

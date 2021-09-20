@@ -89,18 +89,19 @@ namespace CinemaService.Services
 
          if (soldTicketsAfterPurchase > totalSeats)
          {
+
             int difference = soldTicketsAfterPurchase - totalSeats;
             int allowedT = ticketRequest.NumberOfTickets - difference;
 
 
-            throw new Exception("You can buy" + allowedT + "ticket/s");
+            throw new Exception("There are left" + allowedT + "ticket/s");
+
          }
 
 
 
          if (soldTicketsAfterPurchase <= totalSeats)
          {
-
 
             if (soldTicketsAfterPurchase == totalSeats)
             {
@@ -109,7 +110,19 @@ namespace CinemaService.Services
 
             for (int i = 0; i < ticketRequest.NumberOfTickets; i++)
             {
+               ticket.Seat = ticket.Projection.Theater.Seats
+                              .Where(x => x.Free == true)
+                              .First();
 
+
+               ticket.Seat.Free = false;
+
+               if (ticket.Projection.Theater.Free == false)
+               {
+
+                  ticket.Projection.SoldOut = true;
+
+               }
                repository.Create(ticket);
 
             }
