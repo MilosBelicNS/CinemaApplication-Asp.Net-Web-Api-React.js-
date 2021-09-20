@@ -20,5 +20,7 @@ namespace CinemaService.Models
        
         public User Customer { get; set; }
 
+
+      
     }
 }

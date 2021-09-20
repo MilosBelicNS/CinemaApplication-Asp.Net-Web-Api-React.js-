@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Web.Http;
+using AutoMapper;
 using CinemaService.App_Start;
 using CinemaService.Interfaces;
 using CinemaService.Repository;
@@ -6,7 +7,6 @@ using CinemaService.Services;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Web.Http;
 using Unity;
 using Unity.WebApi;
 
@@ -57,7 +57,7 @@ namespace CinemaService
 
             config.DependencyResolver = new UnityDependencyResolver(container);
 
-            
+
         }
     }
 }
