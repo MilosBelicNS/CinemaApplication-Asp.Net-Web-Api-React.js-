@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using CinemaService.Interfaces;
 using CinemaService.Models;
 
@@ -33,12 +32,15 @@ namespace CinemaService.Repository
       {
 
 
-         
+         if (ticket.Projection.Theater.Free == false)
+         {
+            ticket.Projection.SoldOut = true;
+         }
 
          db.Tickets.Add(ticket);
          db.SaveChanges();
 
-         
+
 
 
       }

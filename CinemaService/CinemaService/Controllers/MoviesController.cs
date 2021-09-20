@@ -96,7 +96,14 @@ namespace CinemaService.Controllers
         public IHttpActionResult Delete(int id)
         {
 
-            service.Delete(id);
+         var movie = service.GetById(id);
+
+         if (movie == null)
+         {
+            return NotFound();
+         }
+
+         service.Delete(id);
 
             return StatusCode(HttpStatusCode.NoContent);
 

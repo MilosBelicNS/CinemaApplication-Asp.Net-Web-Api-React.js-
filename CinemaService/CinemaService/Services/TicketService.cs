@@ -98,15 +98,15 @@ namespace CinemaService.Services
 
          }
 
+         if (soldTicketsAfterPurchase == totalSeats)
+         {
+            ticket.Projection.Theater.Free = false;
 
+         }
 
          if (soldTicketsAfterPurchase <= totalSeats)
          {
-
-            if (soldTicketsAfterPurchase == totalSeats)
-            {
-               ticket.Projection.Theater.Free = false;
-            }
+            
 
             for (int i = 0; i < ticketRequest.NumberOfTickets; i++)
             {
@@ -114,15 +114,8 @@ namespace CinemaService.Services
                               .Where(x => x.Free == true)
                               .First();
 
-
                ticket.Seat.Free = false;
 
-               if (ticket.Projection.Theater.Free == false)
-               {
-
-                  ticket.Projection.SoldOut = true;
-
-               }
                repository.Create(ticket);
 
             }
