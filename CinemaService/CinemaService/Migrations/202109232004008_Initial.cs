@@ -3,7 +3,7 @@ namespace CinemaService.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCinemaContext : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -95,6 +95,7 @@ namespace CinemaService.Migrations
                         DateTimeShowing = c.DateTime(nullable: false),
                         TicketPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Deleted = c.Boolean(nullable: false),
+                        SoldOut = c.Boolean(nullable: false),
                         Admin_Id = c.String(maxLength: 128),
                         Movie_Id = c.Int(nullable: false),
                         ProjectionType_Id = c.Int(nullable: false),
@@ -116,11 +117,8 @@ namespace CinemaService.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         TypeName = c.String(nullable: false),
-                        Theater_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Theaters", t => t.Theater_Id)
-                .Index(t => t.Theater_Id);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Theaters",
@@ -131,16 +129,6 @@ namespace CinemaService.Migrations
                         Free = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.AspNetRoles",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
-                    })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
                 "dbo.Seats",
@@ -173,6 +161,29 @@ namespace CinemaService.Migrations
                 .Index(t => t.Projection_Id)
                 .Index(t => t.Seat_Id);
             
+            CreateTable(
+                "dbo.AspNetRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false, maxLength: 256),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
+            CreateTable(
+                "dbo.TheaterProjectionTypes",
+                c => new
+                    {
+                        Theater_Id = c.Int(nullable: false),
+                        ProjectionType_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Theater_Id, t.ProjectionType_Id })
+                .ForeignKey("dbo.Theaters", t => t.Theater_Id, cascadeDelete: true)
+                .ForeignKey("dbo.ProjectionTypes", t => t.ProjectionType_Id, cascadeDelete: true)
+                .Index(t => t.Theater_Id)
+                .Index(t => t.ProjectionType_Id);
+            
         }
         
         public override void Down()
@@ -180,22 +191,24 @@ namespace CinemaService.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Tickets", "Seat_Id", "dbo.Seats");
             DropForeignKey("dbo.Tickets", "Projection_Id", "dbo.Projections");
             DropForeignKey("dbo.Tickets", "Customer_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Seats", "Theater_Id", "dbo.Theaters");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Projections", "Theater_Id", "dbo.Theaters");
-            DropForeignKey("dbo.ProjectionTypes", "Theater_Id", "dbo.Theaters");
             DropForeignKey("dbo.Projections", "ProjectionType_Id", "dbo.ProjectionTypes");
+            DropForeignKey("dbo.Seats", "Theater_Id", "dbo.Theaters");
+            DropForeignKey("dbo.TheaterProjectionTypes", "ProjectionType_Id", "dbo.ProjectionTypes");
+            DropForeignKey("dbo.TheaterProjectionTypes", "Theater_Id", "dbo.Theaters");
             DropForeignKey("dbo.Projections", "Movie_Id", "dbo.Movies");
             DropForeignKey("dbo.Projections", "Admin_Id", "dbo.AspNetUsers");
+            DropIndex("dbo.TheaterProjectionTypes", new[] { "ProjectionType_Id" });
+            DropIndex("dbo.TheaterProjectionTypes", new[] { "Theater_Id" });
+            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Tickets", new[] { "Seat_Id" });
             DropIndex("dbo.Tickets", new[] { "Projection_Id" });
             DropIndex("dbo.Tickets", new[] { "Customer_Id" });
             DropIndex("dbo.Seats", new[] { "Theater_Id" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.ProjectionTypes", new[] { "Theater_Id" });
             DropIndex("dbo.Projections", new[] { "Theater_Id" });
             DropIndex("dbo.Projections", new[] { "ProjectionType_Id" });
             DropIndex("dbo.Projections", new[] { "Movie_Id" });
@@ -205,9 +218,10 @@ namespace CinemaService.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropTable("dbo.TheaterProjectionTypes");
+            DropTable("dbo.AspNetRoles");
             DropTable("dbo.Tickets");
             DropTable("dbo.Seats");
-            DropTable("dbo.AspNetRoles");
             DropTable("dbo.Theaters");
             DropTable("dbo.ProjectionTypes");
             DropTable("dbo.Projections");

@@ -15,16 +15,12 @@ namespace CinemaService.Models
         [Required]
         public bool Free { get; set; }
 
-        public IEnumerable<Seat> Seats { get; set; }
-        public ICollection<ProjectionType> ProjectionTypes { get; set; }
+        public virtual ICollection<Seat> Seats { get; set; }
+        public virtual ICollection<ProjectionType> ProjectionTypes { get; set; }
 
 
 
-        public Theater()
-        {
-            this.ProjectionTypes = new HashSet<ProjectionType>();
-
-        }
+       
 
 
 

@@ -14,7 +14,7 @@ namespace CinemaService.Models
         [Required]
         public string TypeName { get; set; }
 
-        public IEnumerable<Theater> Theaters { get; set; }
+        public ICollection<Theater> Theaters { get; set; }
 
 
      

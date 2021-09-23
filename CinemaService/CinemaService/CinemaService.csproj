@@ -255,9 +255,9 @@
     <Compile Include="Interfaces\IProjection\IProjectionService.cs" />
     <Compile Include="Interfaces\ITicket\ITicketRepository.cs" />
     <Compile Include="Interfaces\ITicket\ITicketService.cs" />
-    <Compile Include="Migrations\202109171650408_InitialCinemaContext.cs" />
-    <Compile Include="Migrations\202109171650408_InitialCinemaContext.Designer.cs">
-      <DependentUpon>202109171650408_InitialCinemaContext.cs</DependentUpon>
+    <Compile Include="Migrations\202109232004008_Initial.cs" />
+    <Compile Include="Migrations\202109232004008_Initial.Designer.cs">
+      <DependentUpon>202109232004008_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -381,8 +381,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202109171650408_InitialCinemaContext.resx">
-      <DependentUpon>202109171650408_InitialCinemaContext.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202109232004008_Initial.resx">
+      <DependentUpon>202109232004008_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

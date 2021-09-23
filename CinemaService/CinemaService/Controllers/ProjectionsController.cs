@@ -60,16 +60,25 @@ namespace CinemaService.Controllers
          return Ok(projection);
       }
 
-      [Authorize(Roles = "Administrator")]
+    //  [Authorize(Roles = "Administrator")]
       [HttpPost()]
       public IHttpActionResult Post(ProjectionRequest projectionRequest)
       {
-
+         
 
          if (!ModelState.IsValid)
             return BadRequest("Invalid data.");
 
-         service.Create(projectionRequest);
+         try
+         {
+            service.Create(projectionRequest);
+         }
+         catch(Exception e)
+         {
+            return BadRequest(e.Message);
+         }
+
+        
 
          return Created("DefaultApi", projectionRequest);
 

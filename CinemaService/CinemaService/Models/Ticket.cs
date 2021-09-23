@@ -1,26 +1,24 @@
-﻿using CinemaService.Models.Validations;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CinemaService.Models
 {
-    public class Ticket
-    {
-        [Key]
-        public int Id { get; set; }
+   public class Ticket
+   {
+      [Key]
+      public int Id { get; set; }
 
-        [Required]
-        public DateTime DatePurchased { get; set; } 
+      [Required]
+      public DateTime DatePurchased { get; set; }
 
-        [Required]
-        public Projection Projection { get; set; }
-        
-        public Seat Seat { get; set; }
-       
-        public User Customer { get; set; }
+      [Required]
+      public virtual Projection Projection { get; set; }
+
+      public virtual Seat Seat { get; set; }
+
+      public virtual User Customer { get; set; }
 
 
-      
-    }
+
+   }
 }

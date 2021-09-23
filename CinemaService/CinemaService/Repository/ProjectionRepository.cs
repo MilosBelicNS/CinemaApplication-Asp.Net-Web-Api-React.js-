@@ -1,71 +1,79 @@
-﻿using CinemaService.Interfaces;
-using CinemaService.Models;
-using System;
-using System.Data.Entity;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using CinemaService.Interfaces;
+using CinemaService.Models;
 
 namespace CinemaService.Repository
 {
-    public class ProjectionRepository : IProjectionRepository, IDisposable
-    {
-
-       
-
-        private ApplicationDbContext db;
-
-        public ProjectionRepository(ApplicationDbContext db)
-        {
-            this.db = db;
-        }
+   public class ProjectionRepository : IProjectionRepository, IDisposable
+   {
 
 
-        public IEnumerable<Projection> GetAll()
-        {
 
-            return db.Projections.Include(x => x.Tickets);
-        }
+      private ApplicationDbContext db;
 
-        public Projection GetById(int id)
-        {
+      public ProjectionRepository(ApplicationDbContext db)
+      {
+         this.db = db;
+      }
 
-            return db.Projections.Include(x => x.Tickets)
-                                 .Where(x => x.Id == id)
-                                 .FirstOrDefault();
 
-        }
+      public IEnumerable<Projection> GetAll()
+      {
 
-        public void Create(Projection projection)
-        {
+         return db.Projections.Include(x => x.Movie)
+                              .Include(x => x.ProjectionType)
+                              .Include(x => x.Theater)
+                              .Include(x => x.Admin);
 
-            db.Projections.Add(projection);
-            db.SaveChanges();
-        }
 
-        public void Delete(int id)
-        {
-            Projection projection = db.Projections.Find(id);
+      }
 
-            db.Projections.Remove(projection);
-            db.SaveChanges();
-        }
+      public Projection GetById(int id)
+      {
 
-        public void Dispose(bool disposing)
-        {
-            if (disposing)
+         Projection projection = db.Projections.Include(x => x.Movie)
+                              .Include(x => x.ProjectionType)
+                              .Include(x => x.Theater)
+                              .Include(x => x.Admin)
+                              .Where(x => x.Id == id)
+                              .FirstOrDefault();
+         return projection;
+      }
+
+      public void Create(Projection projection)
+      {
+
+         db.Projections.Add(projection);
+         db.SaveChanges();
+      }
+
+      public void Delete(int id)
+      {
+         Projection projection = db.Projections.Find(id);
+
+         db.Projections.Remove(projection);
+         db.SaveChanges();
+      }
+
+      public void Dispose(bool disposing)
+      {
+         if (disposing)
+         {
+            if (db != null)
             {
-                if (db != null)
-                {
-                    db.Dispose();
-                    db = null;
-                }
+               db.Dispose();
+               db = null;
             }
-        }
+         }
+      }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-    }
+      public void Dispose()
+      {
+         Dispose(true);
+         GC.SuppressFinalize(this);
+      }
+   }
 }

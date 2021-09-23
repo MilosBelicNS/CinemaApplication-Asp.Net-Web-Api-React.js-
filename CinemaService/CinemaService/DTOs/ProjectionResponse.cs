@@ -14,5 +14,6 @@ namespace CinemaService.Models.DTOs
         public ProjectionType ProjectionType { get; set; }
         public Theater Theater { get; set; }
         public Movie Movie { get; set; }
-    }
+        public IEnumerable<Ticket> Tickets { get; set; }
+   }
 }

@@ -1,181 +1,225 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using AutoMapper;
 using CinemaService.DTOs;
 using CinemaService.Interfaces;
 using CinemaService.Models;
 using CinemaService.Models.DTOs;
 using CinemaService.Models.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 
 namespace CinemaService.Services
 {
-    public class ProjectionService : IProjectionService
-    {
-        private IProjectionRepository repository { get; set; }
+   public class ProjectionService : IProjectionService
+   {
+      private IProjectionRepository repository { get; set; }
 
-        private IMapper mapper { get; set; }
+      private IMapper mapper { get; set; }
 
-        public ProjectionService(IProjectionRepository repository, IMapper mapper)
-        {
-            this.repository = repository;
-            this.mapper = mapper;
-        }
+      public ProjectionService(IProjectionRepository repository, IMapper mapper)
+      {
+         this.repository = repository;
+         this.mapper = mapper;
+      }
 
-        public IEnumerable<ProjectionResponse> GetAll()
-        {
+      public IEnumerable<ProjectionResponse> GetAll()
+      {
 
-            var projections = repository.GetAll()
-                                        .Where(x => x.Deleted == false);
+         var projections = repository.GetAll()
+                                     .Where(x => x.Deleted == false);
 
-            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
-
-
-        }
-
-        public IEnumerable<ProjectionResponse> GetByDate(DateTime dateTime)
-        {
-            var projections = repository.GetAll()
-                                         .Where(p => p.DateTimeShowing.Day.Equals(dateTime.Day))
-                                         .OrderBy(p => p.Movie.Name)
-                                         .OrderBy(p => p.DateTimeShowing);
-
-            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+         return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
 
 
-        }
+      }
 
-        public IEnumerable<ProjectionResponse> Filter(ProjectionFilter projectionFilter)
-        {
-            var projections = repository.GetAll()
-                                        .Where(x => x.Deleted == false); ;
+      public IEnumerable<ProjectionResponse> GetByDate(DateTime dateTime)
+      {
+         var projections = repository.GetAll()
+                                     .Where(p => p.DateTimeShowing.Day.Equals(dateTime.Day) && p.Deleted == false)
+                                     .OrderBy(p => p.Movie.Name)
+                                     .OrderBy(p => p.DateTimeShowing);
 
-            if (!string.IsNullOrWhiteSpace(projectionFilter.MovieName))
-            {
-                projections = projections.Where(n => n.Movie.Name.Contains(projectionFilter.MovieName));
-            }
-
-            if (projectionFilter.StartDateTime != null || projectionFilter.EndDateTime != null)
-            {
-                projections = projections.Where(x => x.DateTimeShowing >= projectionFilter.StartDateTime && x.DateTimeShowing <= projectionFilter.EndDateTime);
-            }
-
-            if (projectionFilter.StartPrice != null || projectionFilter.EndPrice != null)
-            {
-                projections = projections.Where(x => x.TicketPrice >= projectionFilter.StartPrice && x.TicketPrice <= projectionFilter.EndPrice);
-            }
-
-            if (!string.IsNullOrWhiteSpace(projectionFilter.ProjectionType))
-            {
-                projections = projections.Where(x => x.ProjectionType.TypeName.Contains(projectionFilter.ProjectionType));
-            }
-
-            if (!string.IsNullOrWhiteSpace(projectionFilter.Theatar))
-            {
-                projections = projections.Where(x => x.Theater.Name.Contains(projectionFilter.Theatar));
-            }
-
-            if (projectionFilter.OrderBy == "MovieName")
-            {
-                projections = projections.OrderBy(x => x.Movie.Name);
-            }
-
-            if (projectionFilter.OrderBy == "MovieNameDesc")
-            {
-                projections = projections.OrderByDescending(x => x.Movie.Name);
-            }
-
-            if (projectionFilter.OrderBy == "DateTimeShowing")
-            {
-                projections = projections.OrderBy(x => x.DateTimeShowing);
-            }
-
-            if (projectionFilter.OrderBy == "DateTimeShowingDesc")
-            {
-                projections = projections.OrderByDescending(x => x.DateTimeShowing);
-            }
-
-            if (projectionFilter.OrderBy == "ProjectionTypeName")
-            {
-                projections = projections.OrderBy(x => x.ProjectionType.TypeName);
-            }
-
-            if (projectionFilter.OrderBy == "ProjectionTypeNameDesc")
-            {
-                projections = projections.OrderByDescending(x => x.ProjectionType.TypeName);
-            }
-
-            if (projectionFilter.OrderBy == "TheaterName")
-            {
-                projections = projections.OrderBy(x => x.Theater.Name);
-            }
-
-            if (projectionFilter.OrderBy == "TheaterNameDesc")
-            {
-                projections = projections.OrderByDescending(x => x.Theater.Name);
-            }
-
-            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+         return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
 
 
-        }
+      }
 
-        public IEnumerable<ProjectionResponse> GetByMovieId(int movieId, string sortType)
-        {
-            var projections = repository.GetAll().Where(x => x.Movie.Id == movieId && x.DateTimeShowing > DateTime.Now && x.SoldOut == false);
+      public IEnumerable<ProjectionResponse> Filter(ProjectionFilter projectionFilter)
+      {
+         var projections = repository.GetAll()
+                                     .Where(x => x.Deleted == false); ;
 
-            if (sortType.Contains("DateTimeShowing"))
-            {
-                projections = projections.OrderBy(x => x.DateTimeShowing);
-            }
+         if (!string.IsNullOrWhiteSpace(projectionFilter.MovieName))
+         {
+            projections = projections.Where(n => n.Movie.Name.Contains(projectionFilter.MovieName));
+         }
 
-            if (sortType.Contains("DateTimeShowingDesc"))
-            {
-                projections = projections.OrderByDescending(x => x.DateTimeShowing);
-            }
+         if (projectionFilter.StartDateTime != null || projectionFilter.EndDateTime != null)
+         {
+            projections = projections.Where(x => x.DateTimeShowing >= projectionFilter.StartDateTime && x.DateTimeShowing <= projectionFilter.EndDateTime);
+         }
+
+         if (projectionFilter.StartPrice != null || projectionFilter.EndPrice != null)
+         {
+            projections = projections.Where(x => x.TicketPrice >= projectionFilter.StartPrice && x.TicketPrice <= projectionFilter.EndPrice);
+         }
+
+         if (!string.IsNullOrWhiteSpace(projectionFilter.ProjectionType))
+         {
+            projections = projections.Where(x => x.ProjectionType.TypeName.Contains(projectionFilter.ProjectionType));
+         }
+
+         if (!string.IsNullOrWhiteSpace(projectionFilter.Theatar))
+         {
+            projections = projections.Where(x => x.Theater.Name.Contains(projectionFilter.Theatar));
+         }
+
+         if (projectionFilter.OrderBy == "MovieName")
+         {
+            projections = projections.OrderBy(x => x.Movie.Name);
+         }
+
+         if (projectionFilter.OrderBy == "MovieNameDesc")
+         {
+            projections = projections.OrderByDescending(x => x.Movie.Name);
+         }
+
+         if (projectionFilter.OrderBy == "DateTimeShowing")
+         {
+            projections = projections.OrderBy(x => x.DateTimeShowing);
+         }
+
+         if (projectionFilter.OrderBy == "DateTimeShowingDesc")
+         {
+            projections = projections.OrderByDescending(x => x.DateTimeShowing);
+         }
+
+         if (projectionFilter.OrderBy == "ProjectionTypeName")
+         {
+            projections = projections.OrderBy(x => x.ProjectionType.TypeName);
+         }
+
+         if (projectionFilter.OrderBy == "ProjectionTypeNameDesc")
+         {
+            projections = projections.OrderByDescending(x => x.ProjectionType.TypeName);
+         }
+
+         if (projectionFilter.OrderBy == "TheaterName")
+         {
+            projections = projections.OrderBy(x => x.Theater.Name);
+         }
+
+         if (projectionFilter.OrderBy == "TheaterNameDesc")
+         {
+            projections = projections.OrderByDescending(x => x.Theater.Name);
+         }
+
+         return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
 
 
-            return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+      }
 
-        }
+      public IEnumerable<ProjectionResponse> GetByMovieId(int movieId, string sortType)
+      {
+         var projections = repository.GetAll().Where(x => x.Movie.Id == movieId && x.DateTimeShowing > DateTime.Now && x.SoldOut == false);
 
-        public ProjectionById GetById(int id)
-        {
-            var projection = repository.GetById(id);
+         if (sortType.Contains("DateTimeShowing"))
+         {
+            projections = projections.OrderBy(x => x.DateTimeShowing);
+         }
 
-            int freeSeats = projection.Theater.Seats.Where(x => x.Free == true).Count();
-
-            ProjectionById projectionById = mapper.Map<ProjectionById>(projection);
-
-            projectionById.FreeSeats = freeSeats;
-
-            return projectionById;
-
-
-        }
-
-        public void Create(ProjectionRequest projectionRequest)
-        {
-            Projection projection = mapper.Map<Projection>(projectionRequest);
-            if (projection.Movie.Deleted != true)
-            {
-                repository.Create(projection);
-            }
-        }
-
-        public void Delete(int id)
-        {
-            Projection projection = repository.GetById(id);
-
-            if (projection.Tickets != null)
-            {
-                projection.Deleted = true;
-            }
-
-            repository.Delete(id);
-        }
+         if (sortType.Contains("DateTimeShowingDesc"))
+         {
+            projections = projections.OrderByDescending(x => x.DateTimeShowing);
+         }
 
 
-    }
+         return mapper.Map<IEnumerable<ProjectionResponse>>(projections);
+
+      }
+
+      public ProjectionById GetById(int id)
+      {
+         var projection = repository.GetById(id);
+
+         int? freeSeats = projection.Theater.Seats.Where(x => x.Free == true).Count();
+
+         ProjectionById projectionById = mapper.Map<ProjectionById>(projection);
+
+         projectionById.FreeSeats = freeSeats;
+
+         return projectionById;
+
+
+      }
+
+      private DateTime EndOfProjection(Projection projection)
+      {
+         var krajProjekcije = projection.DateTimeShowing.AddMinutes(projection.Movie.Duration).AddMinutes(15.0);
+         return krajProjekcije;
+
+      }
+
+      public void Create(ProjectionRequest projectionRequest)
+      {
+
+         Projection projection = mapper.Map<Projection>(projectionRequest);
+
+         projection.EndOfProjection = EndOfProjection(projection);
+
+         if (!projection.Theater.ProjectionTypes.Contains(projection.ProjectionType))
+         {
+            throw new Exception("This theater doesn't support the selected projection type, choose another!!");
+         }
+
+
+         var projections = repository.GetAll()
+                                     .Where(p => p.DateTimeShowing.Day.Equals(projection.DateTimeShowing.Day) && p.Deleted == false)
+                                     .Where(x => x.Theater.Id == projection.Theater.Id)
+                                     .OrderByDescending(x => x.DateTimeShowing);
+
+         int numbOfProj = projections.Count();
+
+
+         Projection projectionBefore = projections.Where(x => x.DateTimeShowing < projection.DateTimeShowing)
+                                                      .First();
+
+         Projection projectionAfter = projections.Where(x => x.DateTimeShowing > projection.DateTimeShowing)
+                                                       .Last();
+
+         projectionBefore.EndOfProjection = EndOfProjection(projectionBefore);
+
+         if (int.Parse(ConfigurationManager.AppSettings.Get("maxProjByDay")) < numbOfProj + 1)
+         {
+            throw new Exception("One theater can only have 6 projections per day, put another date!");
+         }
+
+         
+         if (projection.DateTimeShowing >= projectionBefore.EndOfProjection && projection.EndOfProjection <= projectionAfter.DateTimeShowing )
+         {
+            repository.Create(projection);
+         }
+
+         throw new Exception("The entered projection time is incorrect, check the list of projections and see what time will be correct");
+
+
+      }
+
+      public void Delete(int id)
+      {
+         Projection projection = repository.GetById(id);
+
+         if (projection.Tickets != null)
+         {
+            projection.Deleted = true;
+         }
+
+         repository.Delete(id);
+      }
+
+
+   }
 }

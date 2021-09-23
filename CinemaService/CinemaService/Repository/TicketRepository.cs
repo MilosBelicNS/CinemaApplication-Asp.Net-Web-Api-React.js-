@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using CinemaService.Interfaces;
 using CinemaService.Models;
+using System.Data.Entity;
+using System.Linq;
 
 namespace CinemaService.Repository
 {
@@ -24,8 +26,9 @@ namespace CinemaService.Repository
       public Ticket GetById(int id)
       {
 
-         return db.Tickets.Find(id);
-
+        
+         Ticket ticket = db.Tickets.Include(x =>x.Projection.Movie).Where(x=>x.Id == id).FirstOrDefault();
+         return ticket;
       }
 
       public void Create(Ticket ticket)
@@ -39,8 +42,6 @@ namespace CinemaService.Repository
 
          db.Tickets.Add(ticket);
          db.SaveChanges();
-
-
 
 
       }

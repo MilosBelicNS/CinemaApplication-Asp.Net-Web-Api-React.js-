@@ -27,7 +27,7 @@ namespace CinemaService.Models.DTOs
        
 
         [Required]
-        public User User { get; set; }
+        public User Admin { get; set; }
         
     }
 }
