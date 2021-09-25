@@ -17,17 +17,17 @@ namespace CinemaService.Models.DTOs
         public decimal TicketPrice { get; set; }
 
         [Required]
-        public Movie Movie { get; set; }
+        public int MovieId { get; set; }
 
         [Required]
-        public ProjectionType ProjectionType { get; set; }
+        public int ProjectionTypeId { get; set; }
 
         [Required]
-        public Theater Theater { get; set; }
+        public int TheaterId { get; set; }
        
 
         [Required]
-        public User Admin { get; set; }
+        public string AdminId { get; set; }
         
     }
 }

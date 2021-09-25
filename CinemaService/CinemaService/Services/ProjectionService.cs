@@ -14,13 +14,15 @@ namespace CinemaService.Services
 {
    public class ProjectionService : IProjectionService
    {
-      private IProjectionRepository repository { get; set; }
+      private IProjectionRepository repository;
+      private IMovieService movieService;
 
       private IMapper mapper { get; set; }
 
-      public ProjectionService(IProjectionRepository repository, IMapper mapper)
+      public ProjectionService(IProjectionRepository repository, IMovieService movieService, IMapper mapper)
       {
          this.repository = repository;
+         this.movieService = movieService;
          this.mapper = mapper;
       }
 
@@ -166,8 +168,10 @@ namespace CinemaService.Services
       public void Create(ProjectionRequest projectionRequest)
       {
 
-         Projection projection = mapper.Map<Projection>(projectionRequest);
-
+         Projection projection = new Projection();
+         projection.Movie = movieService.GetById(projectionRequest.MovieId);// OVDE VRACA DTO, JER SVAKI SERVIS VRACA TAKO, I SAD TREBA STO MAPIRANJA U JEDNOJ METODI DA RADIM
+         //DA LI JE BOLJE DA INJECTUJEM U OVAJ SERVIS REPOSITORY KOJI VRACA DOMENSKI ENTITET ILI DA RADIM MAPIRANJE U CONTROLLERU
+         projection.DateTimeShowing = projectionRequest.DateTimeShowing;
          projection.EndOfProjection = EndOfProjection(projection);
 
          if (!projection.Theater.ProjectionTypes.Contains(projection.ProjectionType))
