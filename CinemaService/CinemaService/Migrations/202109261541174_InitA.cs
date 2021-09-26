@@ -3,7 +3,7 @@ namespace CinemaService.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class InitA : DbMigration
     {
         public override void Up()
         {
@@ -137,10 +137,10 @@ namespace CinemaService.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         SerialNumber = c.Int(nullable: false),
                         Free = c.Boolean(nullable: false),
-                        Theater_Id = c.Int(nullable: false),
+                        Theater_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Theaters", t => t.Theater_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Theaters", t => t.Theater_Id)
                 .Index(t => t.Theater_Id);
             
             CreateTable(

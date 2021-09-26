@@ -15,7 +15,7 @@ namespace CinemaService.Models
         [Required]
         public bool Free { get; set; }
 
-        public virtual ICollection<Seat> Seats { get; set; }
+        public ICollection<Seat> Seats { get; set; }
         public virtual ICollection<ProjectionType> ProjectionTypes { get; set; }
 
 

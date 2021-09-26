@@ -5,6 +5,8 @@ using System.Linq;
 using AutoMapper;
 using CinemaService.DTOs;
 using CinemaService.Interfaces;
+using CinemaService.Interfaces.IProjectionType;
+using CinemaService.Interfaces.ITheater;
 using CinemaService.Models;
 using CinemaService.Models.DTOs;
 using CinemaService.Models.Filters;
@@ -15,14 +17,19 @@ namespace CinemaService.Services
    public class ProjectionService : IProjectionService
    {
       private IProjectionRepository repository;
-      private IMovieService movieService;
+      private IMovieRepository movieRepository;
+      private IProjectionTypeRepository projectionTypeRepository;
+      private ITheaterRepository theaterRepository;
 
       private IMapper mapper { get; set; }
 
-      public ProjectionService(IProjectionRepository repository, IMovieService movieService, IMapper mapper)
+      public ProjectionService(IProjectionRepository repository, IMovieRepository movieRepository,
+                               IMapper mapper, IProjectionTypeRepository projectionTypeRepository, ITheaterRepository theaterRepository)
       {
          this.repository = repository;
-         this.movieService = movieService;
+         this.movieRepository = movieRepository;
+         this.projectionTypeRepository = projectionTypeRepository;
+         this.theaterRepository = theaterRepository;
          this.mapper = mapper;
       }
 
@@ -40,7 +47,7 @@ namespace CinemaService.Services
       public IEnumerable<ProjectionResponse> GetByDate(DateTime dateTime)
       {
          var projections = repository.GetAll()
-                                     .Where(p => p.DateTimeShowing.Day.Equals(dateTime.Day) && p.Deleted == false)
+                                     .Where(p => p.DateTimeShowing.Date.Equals(dateTime.Date) && p.Deleted == false)
                                      .OrderBy(p => p.Movie.Name)
                                      .OrderBy(p => p.DateTimeShowing);
 
@@ -158,56 +165,78 @@ namespace CinemaService.Services
 
       }
 
-      private DateTime EndOfProjection(Projection projection)
+      private DateTime? MakeEndOfProjection(Projection projection)
       {
-         var krajProjekcije = projection.DateTimeShowing.AddMinutes(projection.Movie.Duration).AddMinutes(15.0);
-         return krajProjekcije;
-
+         if (projection != null)
+         {
+            DateTime krajProjekcije = projection.DateTimeShowing.AddMinutes(projection.Movie.Duration).AddMinutes(15.0);
+            return krajProjekcije;
+         }
+         return null;
       }
 
       public void Create(ProjectionRequest projectionRequest)
       {
 
          Projection projection = new Projection();
-         projection.Movie = movieService.GetById(projectionRequest.MovieId);// OVDE VRACA DTO, JER SVAKI SERVIS VRACA TAKO, I SAD TREBA STO MAPIRANJA U JEDNOJ METODI DA RADIM
-         //DA LI JE BOLJE DA INJECTUJEM U OVAJ SERVIS REPOSITORY KOJI VRACA DOMENSKI ENTITET ILI DA RADIM MAPIRANJE U CONTROLLERU
+         projection.Movie = movieRepository.GetById(projectionRequest.MovieId);
+         projection.ProjectionType = projectionTypeRepository.GetById(projectionRequest.ProjectionTypeId);
+         projection.Theater = theaterRepository.GetById(projectionRequest.TheaterId);
          projection.DateTimeShowing = projectionRequest.DateTimeShowing;
-         projection.EndOfProjection = EndOfProjection(projection);
+         projection.TicketPrice = projectionRequest.TicketPrice;
+         projection.EndOfProjection = MakeEndOfProjection(projection);
 
-         if (!projection.Theater.ProjectionTypes.Contains(projection.ProjectionType))
+
+
+         if (projection.Theater.ProjectionTypes.Contains(projection.ProjectionType))
          {
             throw new Exception("This theater doesn't support the selected projection type, choose another!!");
          }
 
 
          var projections = repository.GetAll()
-                                     .Where(p => p.DateTimeShowing.Day.Equals(projection.DateTimeShowing.Day) && p.Deleted == false)
-                                     .Where(x => x.Theater.Id == projection.Theater.Id)
-                                     .OrderByDescending(x => x.DateTimeShowing);
-
+                                             .Where(x => x.Theater.Id == projection.Theater.Id)
+                                             .Where(p => p.DateTimeShowing.Year.Equals(projection.DateTimeShowing.Year)
+                                         && p.DateTimeShowing.Month.Equals(projection.DateTimeShowing.Month)
+                                         && p.DateTimeShowing.Day.Equals(projection.DateTimeShowing.Day)
+                                         && p.Deleted == false)
+                                             .OrderByDescending(x => x.DateTimeShowing);
          int numbOfProj = projections.Count();
 
+         if (numbOfProj == 0)
+         {
+            repository.Create(projection);
+            
+         }
 
-         Projection projectionBefore = projections.Where(x => x.DateTimeShowing < projection.DateTimeShowing)
-                                                      .First();
-
-         Projection projectionAfter = projections.Where(x => x.DateTimeShowing > projection.DateTimeShowing)
-                                                       .Last();
-
-         projectionBefore.EndOfProjection = EndOfProjection(projectionBefore);
 
          if (int.Parse(ConfigurationManager.AppSettings.Get("maxProjByDay")) < numbOfProj + 1)
          {
             throw new Exception("One theater can only have 6 projections per day, put another date!");
          }
 
-         
-         if (projection.DateTimeShowing >= projectionBefore.EndOfProjection && projection.EndOfProjection <= projectionAfter.DateTimeShowing )
+
+         var projectionBefore = projections.Where(x => x.DateTimeShowing < projection.DateTimeShowing)
+                                                      .FirstOrDefault();
+
+         var projectionAfter = projections.Where(x => x.DateTimeShowing > projection.DateTimeShowing)
+                                                       .LastOrDefault();
+        
+
+         if (projectionBefore != null)
          {
-            repository.Create(projection);
+            projectionBefore.EndOfProjection = MakeEndOfProjection(projectionBefore);
+
+            if (projection.DateTimeShowing >= projectionBefore.EndOfProjection && (projectionAfter == null || projection.EndOfProjection <= projectionAfter.DateTimeShowing))
+            {
+               repository.Create(projection);
+            }
+
+            throw new Exception("The entered projection time is incorrect, check the list of projections and see what time will be correct");
+
+
          }
 
-         throw new Exception("The entered projection time is incorrect, check the list of projections and see what time will be correct");
 
 
       }

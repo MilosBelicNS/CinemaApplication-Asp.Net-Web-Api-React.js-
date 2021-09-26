@@ -20,7 +20,7 @@ namespace CinemaService.Repository
 
         public IEnumerable<Movie> GetAll()
         {
-            return db.Movies.Include(x => x.Projections);
+            return db.Movies;
         }
 
         
@@ -28,7 +28,7 @@ namespace CinemaService.Repository
         public Movie GetById(int id)
         {
             
-            return db.Movies.Include(x => x.Projections)
+            return db.Movies
                             .Where(x => x.Id == id)
                             .FirstOrDefault();
 

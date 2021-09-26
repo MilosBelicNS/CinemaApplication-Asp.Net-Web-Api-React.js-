@@ -245,19 +245,25 @@
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="DTOs\MovieById.cs" />
     <Compile Include="DTOs\ProjectionById.cs" />
+    <Compile Include="DTOs\ProjectionTypeResponse.cs" />
+    <Compile Include="DTOs\TheaterResponse.cs" />
     <Compile Include="DTOs\TicketRequest.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IMovie\IMovieRepository.cs" />
     <Compile Include="Interfaces\IMovie\IMovieService.cs" />
+    <Compile Include="Interfaces\IProjectionType\IProjectionTypeRepository.cs" />
+    <Compile Include="Interfaces\IProjectionType\IProjectionTypeService.cs" />
     <Compile Include="Interfaces\IProjection\IProjectionRepository.cs" />
     <Compile Include="Interfaces\IProjection\IProjectionService.cs" />
+    <Compile Include="Interfaces\ITheater\ITheaterRepository.cs" />
+    <Compile Include="Interfaces\ITheater\ITheaterService.cs" />
     <Compile Include="Interfaces\ITicket\ITicketRepository.cs" />
     <Compile Include="Interfaces\ITicket\ITicketService.cs" />
-    <Compile Include="Migrations\202109232004008_Initial.cs" />
-    <Compile Include="Migrations\202109232004008_Initial.Designer.cs">
-      <DependentUpon>202109232004008_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202109261541174_InitA.cs" />
+    <Compile Include="Migrations\202109261541174_InitA.Designer.cs">
+      <DependentUpon>202109261541174_InitA.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -283,10 +289,14 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Repository\MovieRepository.cs" />
     <Compile Include="Repository\ProjectionRepository.cs" />
+    <Compile Include="Repository\ProjectionTypeRepository.cs" />
+    <Compile Include="Repository\TheaterRepository.cs" />
     <Compile Include="Repository\TicketRepository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\MovieService.cs" />
     <Compile Include="Services\ProjectionService.cs" />
+    <Compile Include="Services\ProjectionTypeService.cs" />
+    <Compile Include="Services\TheaterService.cs" />
     <Compile Include="Services\TicketService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -381,8 +391,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202109232004008_Initial.resx">
-      <DependentUpon>202109232004008_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202109261541174_InitA.resx">
+      <DependentUpon>202109261541174_InitA.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

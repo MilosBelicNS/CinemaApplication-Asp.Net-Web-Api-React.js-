@@ -35,7 +35,7 @@ namespace CinemaService.Models
       public bool Deleted { get; set; }
       public bool SoldOut { get; set; }
       [NotMapped]
-      public DateTime EndOfProjection { get; set; }
+      public DateTime? EndOfProjection { get; set; }
 
       public virtual ICollection<Ticket> Tickets { get; set; }
 
